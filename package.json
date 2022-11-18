@@ -1,0 +1,29 @@
+{
+  "name": "forecast2022next",
+  "version": "1.0.0",
+  "description": "This is the project 'Forecast 2022'",
+  "scripts": {
+    "dev": "next dev -p 7900",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "author": "Volodymyr Maliugin",
+  "license": "ISC",
+  "dependencies": {
+    "next": "^13.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "@types/styled-components": "^5.1.26",
+    "eslint": "^8.28.0",
+    "eslint-config-next": "^13.0.4",
+    "typescript": "^4.9.3"
+  }
+}
