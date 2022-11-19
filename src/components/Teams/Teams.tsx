@@ -24,6 +24,8 @@ const Teams: React.FC<ITeamsProps> = ({ className }) => {
 
     const data = await response.json();
 
+    if (!data) return;
+
     setTeams(data);
   };
 
