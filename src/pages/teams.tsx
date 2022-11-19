@@ -1,15 +1,16 @@
 import { Fragment } from 'react';
 
 import Layout from '../components/Layout';
+import Teams from '../components/Teams';
 
-const Teams: React.FC = () => {
+const TeamsPage: React.FC = () => {
   return (
     <Fragment>
       <Layout>
-        <div>Teams Page</div>
+        <Teams />
       </Layout>
     </Fragment>
   );
 };
 
-export default Teams;
+export default TeamsPage;

@@ -22,6 +22,7 @@ export interface IHeaderProps {
 
 export interface ILayoutProps {
   children: React.ReactNode;
+  className?: string;
 }
 
 export interface INavigationProps {
@@ -31,4 +32,20 @@ export interface INavigationProps {
   userName?: string;
   logOutHandler?: () => void;
   className?: string;
+}
+
+export interface ITeamsProps {
+  className?: string;
+}
+
+/*
+ * Types
+ */
+
+export interface ITeam {
+  code: string;
+  name: string;
+  flag?: string;
+  link?: string;
+  _id?: string;
 }
