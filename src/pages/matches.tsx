@@ -2,18 +2,14 @@ import { Fragment } from 'react';
 
 import Layout from '../components/Layout';
 
-const HomeChildren: React.FC = () => {
-  return <div>Home Page</div>;
-};
-
-const Home: React.FC = () => {
+const Matches: React.FC = () => {
   return (
     <Fragment>
       <Layout>
-        <HomeChildren />
+        <div>Matches Page</div>
       </Layout>
     </Fragment>
   );
 };
 
-export default Home;
+export default Matches;
