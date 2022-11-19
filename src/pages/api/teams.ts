@@ -3,6 +3,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { connect } from 'mongoose';
 
 import TeamModel from '../../models/TeamModel';
+import { ITeam } from '../../types';
+import { connected } from 'process';
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,7 +17,17 @@ export default async function handler(
       const teamModel = TeamModel;
       const teams = await teamModel.find();
 
-      res.status(200).json(teams);
+      console.log(teams);
+
+      res.status(200).json(
+        teams.map((item) => ({
+          code: item.code,
+          name: item.name,
+          flag: item.flag,
+          link: item.link,
+          _id: item._id as string,
+        }))
+      );
 
       connection.disconnect();
     } catch (error) {
