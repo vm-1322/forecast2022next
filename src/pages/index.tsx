@@ -6,7 +6,7 @@ const HomeChildren: React.FC = () => {
   return <div>Home Page</div>;
 };
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <Fragment>
       <Layout>
@@ -16,4 +16,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

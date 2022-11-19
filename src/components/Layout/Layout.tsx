@@ -7,7 +7,7 @@ import Footer from '../Footer';
 import { StyledLayout, StyledLayoutMain } from './LayoutStyled';
 import { ILayoutProps, INavigationItem } from '../../types';
 
-const Layout: React.FC<ILayoutProps> = ({ children }) => {
+const Layout: React.FC<ILayoutProps> = ({ children, className }) => {
   const items: INavigationItem[] = [
     { link: { label: 'Home', value: '/' } },
     { link: { label: 'Matches', value: '/matches' } },
@@ -25,7 +25,7 @@ const Layout: React.FC<ILayoutProps> = ({ children }) => {
   };
 
   return (
-    <StyledLayout>
+    <StyledLayout className={className}>
       <Head>
         <title>Forecast 2022</title>
       </Head>
