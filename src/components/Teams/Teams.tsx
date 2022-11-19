@@ -22,11 +22,13 @@ const Teams: React.FC<ITeamsProps> = ({ className }) => {
       },
     });
 
-    const data = await response.json();
+    try {
+      const data = await response.json();
 
-    if (!data) return;
-
-    setTeams(data);
+      setTeams(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const renderTeamItem = (team: ITeam) => {
