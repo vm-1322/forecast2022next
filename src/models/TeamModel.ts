@@ -28,4 +28,4 @@ const TeamSchema = new Schema<ITeam>({
   },
 });
 
-export default models.Team || model('Team', TeamSchema);
+export default model('Team', TeamSchema);
