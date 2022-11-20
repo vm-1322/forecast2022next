@@ -1,15 +1,16 @@
 import { Fragment } from 'react';
 
 import Layout from '../components/Layout';
+import Matches from '../components/Matches';
 
-const Matches: React.FC = () => {
+const MatchesPage: React.FC = () => {
   return (
     <Fragment>
       <Layout>
-        <div>Matches Page</div>
+        <Matches />
       </Layout>
     </Fragment>
   );
 };
 
-export default Matches;
+export default MatchesPage;
