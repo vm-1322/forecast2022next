@@ -46,15 +46,21 @@ export interface ILayoutProps {
   className?: string;
 }
 
+export interface ILogInProps {
+  className?: string;
+}
+
 export interface IMatchesProps {
   className?: string;
 }
+
 export interface INavigationProps {
   items: Array<INavigationItem>;
   activePath?: string;
-  isAuth?: boolean;
-  userName?: string;
-  logOutHandler?: () => void;
+  className?: string;
+}
+
+export interface ISignUpProps {
   className?: string;
 }
 

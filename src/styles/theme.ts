@@ -36,6 +36,7 @@ export const theme: ThemeType = {
     primary: '#686868',
     secondary: '#ab3e26',
     oddRow: '#e6e6e6',
+    gainsboro: '#dcdcdc',
   },
   fonts: {
     primary: 'Open Sans, sans-serif',
