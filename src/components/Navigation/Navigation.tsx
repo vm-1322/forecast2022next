@@ -1,6 +1,7 @@
 import { Fragment, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useSession, signOut } from 'next-auth/react';
 
 import {
   StyledNav,
@@ -15,9 +16,6 @@ import { INavigationProps, INavigationItem } from '../../types';
 const Navigation: React.FC<INavigationProps> = ({
   items,
   activePath,
-  isAuth,
-  userName = '',
-  logOutHandler = () => {},
   className,
 }) => {
   const router = useRouter();
@@ -25,6 +23,10 @@ const Navigation: React.FC<INavigationProps> = ({
   const [currentPath, setCurrentPath] = useState(
     activePath ? activePath : router.pathname
   );
+
+  const { data: session, status } = useSession();
+
+  const isAuth = status === 'authenticated';
 
   const renderNavigationItem = (item: INavigationItem, itemIndex: number) => {
     return (
@@ -47,14 +49,16 @@ const Navigation: React.FC<INavigationProps> = ({
         {isAuth ? (
           <Fragment>
             <StyledNavUserItem isActive={'/profile' === currentPath}>
-              <Link href={'/profile'}>{userName ? userName : 'Profile'}</Link>
+              <Link href={'/profile'}>
+                {session.user.name ? session.user.name : 'Profile'}
+              </Link>
             </StyledNavUserItem>
             <StyledNavUserItem>
               <Link
                 href={'/logout'}
                 onClick={() => {
                   setCurrentPath('/');
-                  logOutHandler();
+                  signOut();
                 }}
               >
                 Log Out

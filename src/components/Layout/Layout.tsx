@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import { useSession } from 'next-auth/react';
 
 import Header from '../Header';
 import Navigation from '../Navigation';
@@ -14,15 +15,11 @@ const Layout: React.FC<ILayoutProps> = ({ children, className }) => {
     { link: { label: 'Teams', value: '/teams' } },
   ];
 
-  const [isAuth, setIsAuth] = useState(false);
+  const { data: session, status } = useSession();
 
-  if (isAuth) {
+  if (status === 'authenticated') {
     items.splice(1, 0, { link: { label: 'Forecasts', value: '/forecasts' } });
   }
-
-  const logOutHandler = () => {
-    setIsAuth(false);
-  };
 
   return (
     <StyledLayout className={className}>
@@ -30,7 +27,7 @@ const Layout: React.FC<ILayoutProps> = ({ children, className }) => {
         <title>Forecast 2022</title>
       </Head>
       <Header />
-      <Navigation items={items} isAuth={isAuth} logOutHandler={logOutHandler} />
+      <Navigation items={items} />
       <StyledLayoutMain>{children}</StyledLayoutMain>
       <Footer />
     </StyledLayout>

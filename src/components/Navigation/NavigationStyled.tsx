@@ -16,7 +16,6 @@ export const StyledNavItems = styled.div`
   display: flex;
   flext-direction: row;
   flex-wrap: wrap;
-  text-transform: uppercase;
 `;
 
 export const StyledNavUser = styled.div`
@@ -32,7 +31,6 @@ export const StyledNavItem = styled.div<{ isActive: boolean }>`
   font-size: 16px;
   line-height: 1.4;
   margin-right: 40px;
-  text-transform: uppercase;
   color: ${(props) =>
     props.isActive ? props.theme.colors.secondary : props.theme.colors.primary};
 
@@ -48,7 +46,6 @@ export const StyledNavUserItem = styled.div<{ isActive?: boolean }>`
   font-size: 16px;
   line-height: 1.4;
   margin-right: 40px;
-  text-transform: uppercase;
   color: ${(props) =>
     props.isActive ? props.theme.colors.secondary : props.theme.colors.primary};
 
