@@ -4,14 +4,15 @@ import { connect } from 'mongoose';
 
 import { checkPassword } from '../../../utility/common';
 import UserModel from '../../../models/UserModel';
+import RoleModel from '../../../models/RoleModel';
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
         const connection = await connect(process.env.DEVELOPMENT_DB);
-        const userModel = UserModel;
 
+        const userModel = UserModel;
         const user = await userModel.findOne({ email: credentials.email });
 
         if (!user) {
@@ -31,9 +32,30 @@ export const authOptions = {
           throw new Error('Could not log you in!');
         }
 
+        const roleModel = RoleModel;
+        const roles = await roleModel.find();
+
+        let listRoles = '';
+
+        if (roles) {
+          user.roles.forEach((userRole) => {
+            roles.forEach((curRole) => {
+              if (userRole._id.toString() === curRole._id.toString()) {
+                listRoles += '"' + curRole.name + '",';
+              }
+            });
+          });
+        }
+
+        const arrRols = `[${listRoles.slice(0, -1)}]`;
+
         connection.disconnect();
 
-        return { email: user.email, name: user.username };
+        return {
+          email: user.email,
+          name: user.username,
+          image: `{roles: ${arrRols}}`,
+        };
       },
     }),
   ],
