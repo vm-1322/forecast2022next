@@ -55,7 +55,7 @@ const Navigation: React.FC<INavigationProps> = ({
             </StyledNavUserItem>
             <StyledNavUserItem>
               <Link
-                href={'/logout'}
+                href={'/'}
                 onClick={() => {
                   setCurrentPath('/');
                   signOut();
