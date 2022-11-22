@@ -10,18 +10,22 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== 'GET') return;
+  if (req.method !== 'POST') return;
+
+  const forecast = req.body.forecast || false;
 
   try {
     const connection = await connect(process.env.DEVELOPMENT_DB);
 
     const matchModel = MatchModel;
-    const matches = await matchModel.find();
+    const matches = await matchModel.find(forecast ? { forecast: true } : null);
 
     const teamModel = TeamModel;
     const teams = await teamModel.find();
 
-    const listMatches = matches.map((itemMatch: IMatch) => {
+    const listMatches: Array<IMatch> = [];
+
+    matches.forEach((itemMatch: IMatch) => {
       const team1 = teams.find(
         (item: ITeam) => item.code === itemMatch.team1Code
       );
@@ -29,7 +33,7 @@ export default async function handler(
         (item: ITeam) => item.code === itemMatch.team2Code
       );
 
-      return {
+      listMatches.push({
         date: itemMatch.date,
         team1Code: itemMatch.team1Code,
         team1: {
@@ -54,8 +58,10 @@ export default async function handler(
         forecast: itemMatch.forecast,
         linkToBet: itemMatch.linkToBet,
         _id: itemMatch._id,
-      };
+      });
     });
+
+    listMatches.sort((a, b) => a.date - b.date);
 
     res.status(200).json(listMatches);
 

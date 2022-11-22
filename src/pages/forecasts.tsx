@@ -2,18 +2,18 @@ import { Fragment } from 'react';
 
 import Layout from '../components/Layout';
 
-const ForecastChildren: React.FC = () => {
-  return <div>Forecast Page</div>;
+const ForecastsChildren: React.FC = () => {
+  return <div>Forecasts Page</div>;
 };
 
-const ForecastPage: React.FC = () => {
+const ForecastsPage: React.FC = () => {
   return (
     <Fragment>
       <Layout>
-        <ForecastChildren />
+        <ForecastsChildren />
       </Layout>
     </Fragment>
   );
 };
 
-export default ForecastPage;
+export default ForecastsPage;

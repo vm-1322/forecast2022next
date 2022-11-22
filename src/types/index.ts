@@ -41,6 +41,10 @@ export interface IHeaderProps {
   className?: string;
 }
 
+export interface IHomePageProps {
+  className?: string;
+}
+
 export interface ILayoutProps {
   children: React.ReactNode;
   className?: string;
@@ -51,12 +55,17 @@ export interface ILogInProps {
 }
 
 export interface IMatchesProps {
+  forecast?: boolean;
   className?: string;
 }
 
 export interface INavigationProps {
   items: Array<INavigationItem>;
   activePath?: string;
+  className?: string;
+}
+
+export interface IScoreTableProps {
   className?: string;
 }
 
