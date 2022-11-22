@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import Header from '../Header';
 import Navigation from '../Navigation';
 import Footer from '../Footer';
+import { useUserRoles } from '../../hooks';
 import { StyledLayout, StyledLayoutMain } from './LayoutStyled';
 import { ILayoutProps, INavigationItem } from '../../types';
 
@@ -16,9 +17,11 @@ const Layout: React.FC<ILayoutProps> = ({ children, className }) => {
   ];
 
   const { data: session, status } = useSession();
+  const listRoles = useUserRoles();
 
   if (status === 'authenticated') {
-    items.splice(1, 0, { link: { label: 'Forecasts', value: '/forecasts' } });
+    if (listRoles.length)
+      items.splice(1, 0, { link: { label: 'Forecasts', value: '/forecasts' } });
   }
 
   return (
