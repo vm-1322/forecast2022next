@@ -1,19 +1,16 @@
 import { Fragment } from 'react';
 
 import Layout from '../components/Layout';
+import HomePage from '../components/HomePage';
 
-const HomeChildren: React.FC = () => {
-  return <div>Home Page</div>;
-};
-
-const HomePage: React.FC = () => {
+const Home: React.FC = () => {
   return (
     <Fragment>
       <Layout>
-        <HomeChildren />
+        <HomePage />
       </Layout>
     </Fragment>
   );
 };
 
-export default HomePage;
+export default Home;
