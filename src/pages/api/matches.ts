@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
 import { connect } from 'mongoose';
 
 import MatchModel from '../../models/MatchModel';

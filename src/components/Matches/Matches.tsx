@@ -16,22 +16,13 @@ import {
   StyledMatchItemTeams,
   StyledMatchesList,
 } from './MatchesStyled';
-
 import { IMatchesProps, IMatch, MatchStatus } from '../../types';
+import { FormatDateTime } from '../../utility/common';
 
 const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   const [matches, setMatches] = useState<Array<IMatch>>([]);
   const { data: session, status } = useSession();
   const router = useRouter();
-
-  const FormatDateTime = (moment: number) => {
-    const date = new Date(moment).toString();
-
-    return `${date.substring(8, 10)} ${date.substring(4, 7)},  ${date.substring(
-      15,
-      21
-    )}`;
-  };
 
   const retrieveMatches = async () => {
     const response = await fetch('/api/matches', {
@@ -46,6 +37,18 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
     setMatches(listMatches);
   };
 
+  const makeForecast = (curMatch: IMatch) => {
+    router.push(
+      {
+        pathname: '/forecast',
+        query: {
+          match: JSON.stringify(curMatch),
+        },
+      },
+      '/forecast'
+    );
+  };
+
   const renderMatchItem = (match: IMatch) => {
     const win1: boolean = Number(match.result1) > Number(match.result2);
     const win2: boolean = Number(match.result1) < Number(match.result2);
@@ -55,12 +58,6 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
       status === 'authenticated' &&
       match.matchStatus === MatchStatus.Forecast;
     const isNotForecast = match.matchStatus !== MatchStatus.Forecast;
-
-    const makeForecast = (curMatch: IMatch) => {
-      console.log('makeForecast');
-      console.log(curMatch);
-      router.replace('/forecast');
-    };
 
     return (
       <Fragment>
@@ -98,7 +95,7 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
             <StyledMatchItemForecast>
               <input
                 type='button'
-                value='Make forecast'
+                value='Bet'
                 onClick={(event: React.FormEvent) => {
                   event.preventDefault();
                   makeForecast(match);

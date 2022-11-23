@@ -37,6 +37,11 @@ export interface IFooterProps {
   className?: string;
 }
 
+export interface IForecastProps {
+  match: IMatch;
+  className?: string;
+}
+
 export interface IHeaderProps {
   className?: string;
 }
