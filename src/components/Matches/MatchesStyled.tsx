@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
 export const StyledMatches = styled.div`
-  padding: 25px;
+  padding: 10px;
   color: ${(props) => props.theme.colors.common.black};
+
+  ${(props) => props.theme.media.tablet} {
+    padding: 25px;
+  }
 `;
 
 export const StyledMatchesList = styled.div`
@@ -26,7 +30,19 @@ export const StyledMatchItemDateTime = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 120px;
-  padding: 0 10px;
+  padding-right: 10px;
+
+  ${(props) => props.theme.media.tablet} {
+    padding: 0 10px;
+  }
+`;
+
+export const StyledMatchItemDate = styled.div`
+  text-align: center;
+`;
+
+export const StyledMatchItemTime = styled.div`
+  text-align: center;
 `;
 
 export const StyledMatchItemTeams = styled.div``;
@@ -67,7 +83,7 @@ export const StyledMatchItemForecast = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 90px;
-  margin-left: 30px;
+  margin-left: 15px;
 
   & input {
     display: block;
@@ -81,13 +97,21 @@ export const StyledMatchItemForecast = styled.div`
     font-size: 1rem;
     cursor: cell;
   }
+
+  ${(props) => props.theme.media.tablet} {
+    margin-left: 30px;
+  }
 `;
 
 export const StyledMatchItemStatus = styled.div`
   width: 90px;
-  margin-left: 30px;
+  margin-left: 15px;
   padding: 5px;
   font-size: 1rem;
   text-align: center;
   line-height: 40px;
+
+  ${(props) => props.theme.media.tablet} {
+    margin-left: 30px;
+  }
 `;

@@ -6,6 +6,8 @@ import {
   StyledMatches,
   StyledMatchItem,
   StyledMatchItemDateTime,
+  StyledMatchItemDate,
+  StyledMatchItemTime,
   StyledMatchItemForecast,
   StyledMatchItemResult,
   StyledMatchItemResultScore,
@@ -16,7 +18,7 @@ import {
   StyledMatchItemTeams,
   StyledMatchesList,
 } from './MatchesStyled';
-import { IMatchesProps, IMatch, MatchStatus } from '../../types';
+import { IMatchesProps, IMatch, MatchStatus, DateTime } from '../../types';
 import { FormatDateTime } from '../../utility/common';
 
 const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
@@ -63,7 +65,12 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
       <Fragment>
         <StyledMatchItem key={match._id} href={match.linkToBet}>
           <StyledMatchItemDateTime>
-            {FormatDateTime(match.date)}
+            <StyledMatchItemDate>
+              {FormatDateTime(match.date, DateTime.Date)}
+            </StyledMatchItemDate>
+            <StyledMatchItemTime>
+              {FormatDateTime(match.date, DateTime.Time)}
+            </StyledMatchItemTime>
           </StyledMatchItemDateTime>
           <StyledMatchItemTeams>
             <StyledMatchItemTeam>
