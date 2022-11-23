@@ -1,5 +1,5 @@
 import { hash, compare } from 'bcryptjs';
-import { IMatch, Stages, Rounds } from '../types';
+import { IMatch, Stages, Rounds, DateTime } from '../types';
 
 /*
  * Password
@@ -53,13 +53,22 @@ export const isPasswordValid = (
   return true;
 };
 
-export const FormatDateTime = (moment: number) => {
+export const FormatDateTime = (
+  moment: number,
+  format: DateTime = DateTime.DateTime
+) => {
   const date = new Date(moment).toString();
 
-  return `${date.substring(8, 10)} ${date.substring(4, 7)},  ${date.substring(
-    15,
-    21
-  )}`;
+  if (DateTime[format] === DateTime.DateTime)
+    return `${date.substring(8, 10)} ${date.substring(4, 7)},  ${date.substring(
+      15,
+      21
+    )}`;
+
+  if (DateTime[format] === DateTime.Date)
+    return `${date.substring(8, 10)} ${date.substring(4, 7)}`;
+
+  if (DateTime[format] === DateTime.Time) return `${date.substring(15, 21)}`;
 };
 
 export const getSage = (match: IMatch) => {

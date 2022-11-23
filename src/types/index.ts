@@ -19,6 +19,12 @@ export enum Rounds {
   F = 'Final',
 }
 
+export enum DateTime {
+  DateTime = 'Date &Time',
+  Date = 'Date',
+  Time = 'Time',
+}
+
 export interface ILink {
   label: string;
   value: string;
