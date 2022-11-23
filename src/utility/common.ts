@@ -1,5 +1,5 @@
-import { useSession } from 'next-auth/react';
 import { hash, compare } from 'bcryptjs';
+import { IMatch, Stages, Rounds } from '../types';
 
 /*
  * Password
@@ -51,4 +51,30 @@ export const isPasswordValid = (
   if (password.length > length) return false;
 
   return true;
+};
+
+export const FormatDateTime = (moment: number) => {
+  const date = new Date(moment).toString();
+
+  return `${date.substring(8, 10)} ${date.substring(4, 7)},  ${date.substring(
+    15,
+    21
+  )}`;
+};
+
+export const getSage = (match: IMatch) => {
+  const stage = match.stage;
+  let curStage = '';
+
+  if (Stages[stage.kind] === Stages.GS) {
+    curStage += `Group ${stage.groupRound}`;
+
+    if (stage.round) {
+      curStage += ` - Round ${stage.round}`;
+    }
+  } else {
+    curStage += `${stage.groupRound} ${Rounds[stage.kind]}`;
+  }
+
+  return curStage;
 };

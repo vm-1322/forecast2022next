@@ -66,12 +66,12 @@ export const StyledMatchItemForecast = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 120px;
-  margin-left: 50px;
-  padding: 5px;
+  width: 90px;
+  margin-left: 30px;
 
   & input {
     display: block;
+    width: 100%;
     padding: 7px;
     margin: 0 auto;
     background-color: silver;
@@ -84,8 +84,8 @@ export const StyledMatchItemForecast = styled.div`
 `;
 
 export const StyledMatchItemStatus = styled.div`
-  width: 120px;
-  margin-left: 50px;
+  width: 90px;
+  margin-left: 30px;
   padding: 5px;
   font-size: 1rem;
   text-align: center;

@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 import Layout from '../components/Layout';
 
 const ForecastsChildren: React.FC = () => {
@@ -8,11 +6,9 @@ const ForecastsChildren: React.FC = () => {
 
 const ForecastsPage: React.FC = () => {
   return (
-    <Fragment>
-      <Layout>
-        <ForecastsChildren />
-      </Layout>
-    </Fragment>
+    <Layout>
+      <ForecastsChildren />
+    </Layout>
   );
 };
 
