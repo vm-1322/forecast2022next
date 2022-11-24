@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
@@ -65,58 +65,56 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
     const isNotForecast = match.matchStatus !== MatchStatus.Forecast;
 
     return (
-      <Fragment>
-        <StyledMatchItem key={match._id} href={match.linkToBet}>
-          <StyledMatchItemDateTime>
-            <StyledMatchItemDate>
-              {FormatDateTime(match.date, DateTime.Date)}
-            </StyledMatchItemDate>
-            <StyledMatchItemTime>
-              {FormatDateTime(match.date, DateTime.Time)}
-            </StyledMatchItemTime>
-          </StyledMatchItemDateTime>
-          <StyledMatchItemTeams>
-            <StyledMatchItemTeam>
-              <StyledMatchItemTeamFlag>
-                <img src={match.team1.flag} alt={match.team1.code} />
-              </StyledMatchItemTeamFlag>
-              <StyledMatchItemTeamName isWin={win1}>
-                {match.team1.name}
-              </StyledMatchItemTeamName>
-            </StyledMatchItemTeam>
-            <StyledMatchItemTeam>
-              <StyledMatchItemTeamFlag>
-                <img src={match.team2.flag} alt={match.team2.code} />
-              </StyledMatchItemTeamFlag>
-              <StyledMatchItemTeamName isWin={win2}>
-                {match.team2.name}
-              </StyledMatchItemTeamName>
-            </StyledMatchItemTeam>
-          </StyledMatchItemTeams>
-          <StyledMatchItemResult>
-            <StyledMatchItemResultScore isWin={win1}>
-              {match.result1}
-            </StyledMatchItemResultScore>
-            <StyledMatchItemResultScore isWin={win2}>
-              {match.result2}
-            </StyledMatchItemResultScore>
-          </StyledMatchItemResult>
-          {isForecast ? (
-            <StyledMatchItemForecast>
-              <input
-                type='button'
-                value='Bet'
-                onClick={(event: React.FormEvent) => {
-                  event.preventDefault();
-                  makeForecast(match);
-                }}
-              />
-            </StyledMatchItemForecast>
-          ) : isNotForecast ? (
-            <StyledMatchItemStatus>{matchStatus}</StyledMatchItemStatus>
-          ) : null}
-        </StyledMatchItem>
-      </Fragment>
+      <StyledMatchItem key={match._id} href={match.linkToBet}>
+        <StyledMatchItemDateTime>
+          <StyledMatchItemDate>
+            {FormatDateTime(match.date, DateTime.Date)}
+          </StyledMatchItemDate>
+          <StyledMatchItemTime>
+            {FormatDateTime(match.date, DateTime.Time)}
+          </StyledMatchItemTime>
+        </StyledMatchItemDateTime>
+        <StyledMatchItemTeams>
+          <StyledMatchItemTeam>
+            <StyledMatchItemTeamFlag>
+              <img src={match.team1.flag} alt={match.team1.code} />
+            </StyledMatchItemTeamFlag>
+            <StyledMatchItemTeamName isWin={win1}>
+              {match.team1.name}
+            </StyledMatchItemTeamName>
+          </StyledMatchItemTeam>
+          <StyledMatchItemTeam>
+            <StyledMatchItemTeamFlag>
+              <img src={match.team2.flag} alt={match.team2.code} />
+            </StyledMatchItemTeamFlag>
+            <StyledMatchItemTeamName isWin={win2}>
+              {match.team2.name}
+            </StyledMatchItemTeamName>
+          </StyledMatchItemTeam>
+        </StyledMatchItemTeams>
+        <StyledMatchItemResult>
+          <StyledMatchItemResultScore isWin={win1}>
+            {match.result1}
+          </StyledMatchItemResultScore>
+          <StyledMatchItemResultScore isWin={win2}>
+            {match.result2}
+          </StyledMatchItemResultScore>
+        </StyledMatchItemResult>
+        {isForecast ? (
+          <StyledMatchItemForecast>
+            <input
+              type='button'
+              value='Bet'
+              onClick={(event: React.FormEvent) => {
+                event.preventDefault();
+                makeForecast(match);
+              }}
+            />
+          </StyledMatchItemForecast>
+        ) : isNotForecast ? (
+          <StyledMatchItemStatus>{matchStatus}</StyledMatchItemStatus>
+        ) : null}
+      </StyledMatchItem>
     );
   };
 
