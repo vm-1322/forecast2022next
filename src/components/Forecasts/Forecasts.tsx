@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import {
@@ -8,6 +8,17 @@ import {
   StyledForecastItemDate,
   StyledForecastItemResult,
   StyledForecastItemResultScore,
+  StyledForecastItemMatchDateTime,
+  StyledForecastItemMatchDate,
+  StyledForecastItemMatchTime,
+  StyledForecastItemMatchTeams,
+  StyledForecastItemMatchTeam,
+  StyledForecastItemMatchTeamFlag,
+  StyledForecastItemMatchTeamName,
+  StyledForecastItemMatchResult,
+  StyledForecastItemMatchResultScore,
+  StyledForecastItemMatchStatus,
+  StyledForecastItemUserPoints,
   StyledForecastItemUser,
   StyledForecastItemPoints,
   StyledForecastItemTime,
@@ -33,6 +44,14 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
   };
 
   const renderForecastItem = (forecast: IForecast) => {
+    const win1: boolean =
+      Number(forecast.matchDetails.result1) >
+      Number(forecast.matchDetails.result2);
+    const win2: boolean =
+      Number(forecast.matchDetails.result1) <
+      Number(forecast.matchDetails.result2);
+    const matchStatus = forecast.matchDetails.matchStatus;
+
     const getForecastDate = (curForecast: IForecast): number => {
       curForecast.history.sort((a, b) => b.date - a.date);
 
@@ -40,82 +59,77 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
     };
 
     return (
-      <Fragment>
-        <StyledForecastItem key={forecast._id}>
-          <StyledForecastItemDateTime>
-            <StyledForecastItemDate>
-              {FormatDateTime(getForecastDate(forecast), DateTime.Date)}
-            </StyledForecastItemDate>
-            <StyledForecastItemTime>
-              {FormatDateTime(getForecastDate(forecast), DateTime.Time)}
-            </StyledForecastItemTime>
-          </StyledForecastItemDateTime>
-          <StyledForecastItemResult>
-            <StyledForecastItemResultScore>
-              {forecast.goal1}
-            </StyledForecastItemResultScore>
-            <StyledForecastItemResultScore>
-              {forecast.goal2}
-            </StyledForecastItemResultScore>
-          </StyledForecastItemResult>
+      <StyledForecastItem key={forecast._id}>
+        <StyledForecastItemDateTime>
+          <StyledForecastItemDate>
+            {FormatDateTime(getForecastDate(forecast), DateTime.Date)}
+          </StyledForecastItemDate>
+          <StyledForecastItemTime>
+            {FormatDateTime(getForecastDate(forecast), DateTime.Time)}
+          </StyledForecastItemTime>
+        </StyledForecastItemDateTime>
+        <StyledForecastItemResult>
+          <StyledForecastItemResultScore>
+            {forecast.goal1}
+          </StyledForecastItemResultScore>
+          <StyledForecastItemResultScore>
+            {forecast.goal2}
+          </StyledForecastItemResultScore>
+        </StyledForecastItemResult>
+        <StyledForecastItemUserPoints>
           <StyledForecastItemUser>
             {JSON.parse(JSON.stringify(forecast.user)).username}
           </StyledForecastItemUser>
           <StyledForecastItemPoints>{forecast.result}</StyledForecastItemPoints>
-        </StyledForecastItem>
-        {/* <StyledMatchItem key={match._id} href={match.linkToBet}>
-          <StyledMatchItemDateTime>
-            <StyledMatchItemDate>
-              {FormatDateTime(match.date, DateTime.Date)}
-            </StyledMatchItemDate>
-            <StyledMatchItemTime>
-              {FormatDateTime(match.date, DateTime.Time)}
-            </StyledMatchItemTime>
-          </StyledMatchItemDateTime>
-          <StyledMatchItemTeams>
-            <StyledMatchItemTeam>
-              <StyledMatchItemTeamFlag>
-                <img src={match.team1.flag} alt={match.team1.code} />
-              </StyledMatchItemTeamFlag>
-              <StyledMatchItemTeamName isWin={win1}>
-                {match.team1.name}
-              </StyledMatchItemTeamName>
-            </StyledMatchItemTeam>
-            <StyledMatchItemTeam>
-              <StyledMatchItemTeamFlag>
-                <img src={match.team2.flag} alt={match.team2.code} />
-              </StyledMatchItemTeamFlag>
-              <StyledMatchItemTeamName isWin={win2}>
-                {match.team2.name}
-              </StyledMatchItemTeamName>
-            </StyledMatchItemTeam>
-          </StyledMatchItemTeams>
-          <StyledMatchItemResult>
-            <StyledMatchItemResultScore isWin={win1}>
-              {match.result1}
-            </StyledMatchItemResultScore>
-            <StyledMatchItemResultScore isWin={win2}>
-              {match.result2}
-            </StyledMatchItemResultScore>
-          </StyledMatchItemResult>
-          {isForecast ? (
-            <StyledMatchItemForecast>
-              <input
-                type='button'
-                value='Bet'
-                onClick={(event: React.FormEvent) => {
-                  event.preventDefault();
-                  makeForecast(match);
-                }}
+        </StyledForecastItemUserPoints>
+        <StyledForecastItemMatchDateTime>
+          <StyledForecastItemMatchDate>
+            {FormatDateTime(forecast.matchDetails.date, DateTime.Date)}
+          </StyledForecastItemMatchDate>
+          <StyledForecastItemMatchTime>
+            {FormatDateTime(forecast.matchDetails.date, DateTime.Time)}
+          </StyledForecastItemMatchTime>
+        </StyledForecastItemMatchDateTime>
+        <StyledForecastItemMatchTeams>
+          <StyledForecastItemMatchTeam>
+            <StyledForecastItemMatchTeamFlag>
+              <img
+                src={forecast.matchDetails.team1.flag}
+                alt={forecast.matchDetails.team1.code}
               />
-            </StyledMatchItemForecast>
-          ) : isNotForecast ? (
-            <StyledMatchItemStatus>{matchStatus}</StyledMatchItemStatus>
-          ) : null}
-        </StyledMatchItem> */}
-      </Fragment>
+            </StyledForecastItemMatchTeamFlag>
+            <StyledForecastItemMatchTeamName isWin={win1}>
+              {forecast.matchDetails.team1.name}
+            </StyledForecastItemMatchTeamName>
+          </StyledForecastItemMatchTeam>
+          <StyledForecastItemMatchTeam>
+            <StyledForecastItemMatchTeamFlag>
+              <img
+                src={forecast.matchDetails.team2.flag}
+                alt={forecast.matchDetails.team2.code}
+              />
+            </StyledForecastItemMatchTeamFlag>
+            <StyledForecastItemMatchTeamName isWin={win2}>
+              {forecast.matchDetails.team2.name}
+            </StyledForecastItemMatchTeamName>
+          </StyledForecastItemMatchTeam>
+        </StyledForecastItemMatchTeams>
+        <StyledForecastItemMatchResult>
+          <StyledForecastItemMatchResultScore isWin={win1}>
+            {forecast.matchDetails.result1}
+          </StyledForecastItemMatchResultScore>
+          <StyledForecastItemMatchResultScore isWin={win2}>
+            {forecast.matchDetails.result2}
+          </StyledForecastItemMatchResultScore>
+        </StyledForecastItemMatchResult>
+        <StyledForecastItemMatchStatus>
+          {forecast.matchDetails.matchStatus}
+        </StyledForecastItemMatchStatus>
+      </StyledForecastItem>
     );
   };
+
+  console.dir(forecasts);
 
   useEffect(() => {
     retrieveForecasts();

@@ -1,6 +1,6 @@
 export const breakpoints = {
   mobile: '375px',
-  tablet: '1024px',
+  tablet: '844px',
   desktop: '1360px',
   desktopLarge: '1760px',
 };

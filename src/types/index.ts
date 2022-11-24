@@ -117,6 +117,22 @@ export interface IForecast {
   ];
   result: string;
   _id?: string;
+  matchDetails?: {
+    date: number;
+    result1: number;
+    result2: number;
+    team1: {
+      code: string;
+      name: string;
+      flag: string;
+    };
+    team2: {
+      code: string;
+      name: string;
+      flag: string;
+    };
+    matchStatus: keyof typeof MatchStatus;
+  };
 }
 
 export interface IMatch {
