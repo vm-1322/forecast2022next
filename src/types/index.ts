@@ -1,5 +1,17 @@
 import { Schema } from 'mongoose';
 
+export enum ForecastAction {
+  Read = 'Read',
+  Write = 'Write',
+  Create = 'Create',
+}
+
+export enum DateTime {
+  DateTime = 'DateTime',
+  Date = 'Date',
+  Time = 'Time',
+}
+
 export enum MatchStatus {
   Forecast = 'Forecast',
   Finished = 'Finished',
@@ -17,12 +29,6 @@ export enum Rounds {
   SF = '1/2 Final',
   Third = '3rd place',
   F = 'Final',
-}
-
-export enum DateTime {
-  DateTime = 'Date &Time',
-  Date = 'Date',
-  Time = 'Time',
 }
 
 export interface ILink {
@@ -45,6 +51,11 @@ export interface IFooterProps {
 
 export interface IForecastProps {
   match: IMatch;
+  forecast: IForecast;
+  className?: string;
+}
+
+export interface IForecastsProps {
   className?: string;
 }
 
@@ -91,6 +102,22 @@ export interface ITeamsProps {
 /*
  * Types
  */
+
+export interface IForecast {
+  user: Schema.Types.ObjectId;
+  match: Schema.Types.ObjectId;
+  goal1: number;
+  goal2: number;
+  history?: [
+    {
+      date: number;
+      goal1: number;
+      goal2: number;
+    }
+  ];
+  result: string;
+  _id?: string;
+}
 
 export interface IMatch {
   date: number;
@@ -140,10 +167,5 @@ export interface IUser {
   username: string;
   email: string;
   password: string;
-  roles: [
-    {
-      type: Schema.Types.ObjectId;
-      ref: 'Role';
-    }
-  ];
+  roles: [Schema.Types.ObjectId];
 }

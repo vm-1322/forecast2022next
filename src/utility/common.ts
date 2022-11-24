@@ -22,7 +22,7 @@ export async function checkPassword(password, hashedPassword) {
 
 const emailRegex = /^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](.?[-!#$%&'*+/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*.?[a-zA-Z0-9])*.[a-zA-Z](-?[a-zA-Z0-9])+$/;
 
-export const isEmailValid = (email: string): boolean => {
+export const isValidEmail = (email: string): boolean => {
   if (!email) return false;
 
   if (email.length > 254) return false;
@@ -42,7 +42,7 @@ export const isEmailValid = (email: string): boolean => {
   return true;
 };
 
-export const isPasswordValid = (
+export const isValidPassword = (
   password: string,
   length: number = 5
 ): boolean => {
