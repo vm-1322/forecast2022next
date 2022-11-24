@@ -1,72 +1,69 @@
 import { Fragment, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
-import { useUserRoles } from '../../hooks';
 import {
-  StyledMatches,
-  StyledMatchItem,
-  StyledMatchItemDateTime,
-  StyledMatchItemDate,
-  StyledMatchItemTime,
-  StyledMatchItemForecast,
-  StyledMatchItemResult,
-  StyledMatchItemResultScore,
-  StyledMatchItemStatus,
-  StyledMatchItemTeam,
-  StyledMatchItemTeamFlag,
-  StyledMatchItemTeamName,
-  StyledMatchItemTeams,
-  StyledMatchesList,
-} from './MatchesStyled';
-import { IMatchesProps, IMatch, MatchStatus, DateTime } from '../../types';
+  StyledForecasts,
+  StyledForecastsList,
+  StyledForecastItemDateTime,
+  StyledForecastItemDate,
+  StyledForecastItemResult,
+  StyledForecastItemResultScore,
+  StyledForecastItemUser,
+  StyledForecastItemPoints,
+  StyledForecastItemTime,
+  StyledForecastItem,
+} from './ForecastsStyled';
+import { IForecastsProps, IForecast, DateTime } from '../../types';
 import { FormatDateTime } from '../../utility/common';
 
-const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
-  const [matches, setMatches] = useState<Array<IMatch>>([]);
+const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
+  const [forecasts, setForecasts] = useState<Array<IForecast>>([]);
   const { data: session, status } = useSession();
-  const router = useRouter();
-  const listRoles = useUserRoles();
 
-  const retrieveMatches = async () => {
-    const response = await fetch('/api/matches', {
+  const retrieveForecasts = async () => {
+    const response = await fetch('/api/forecasts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ forecast: forecast }),
     });
 
-    const listMatches = await response.json();
-    setMatches(listMatches);
+    const listForecasts = await response.json();
+    setForecasts(listForecasts);
   };
 
-  const makeForecast = (curMatch: IMatch) => {
-    router.push(
-      {
-        pathname: '/forecast',
-        query: {
-          match: JSON.stringify(curMatch),
-        },
-      },
-      '/forecast'
-    );
-  };
+  const renderForecastItem = (forecast: IForecast) => {
+    const getForecastDate = (curForecast: IForecast): number => {
+      curForecast.history.sort((a, b) => b.date - a.date);
 
-  const renderMatchItem = (match: IMatch) => {
-    const win1: boolean = Number(match.result1) > Number(match.result2);
-    const win2: boolean = Number(match.result1) < Number(match.result2);
-    const matchStatus = match.matchStatus;
-    const isForecast =
-      forecast &&
-      status === 'authenticated' &&
-      match.matchStatus === MatchStatus.Forecast &&
-      listRoles.length;
-    const isNotForecast = match.matchStatus !== MatchStatus.Forecast;
+      return curForecast.history[0].date;
+    };
 
     return (
       <Fragment>
-        <StyledMatchItem key={match._id} href={match.linkToBet}>
+        <StyledForecastItem key={forecast._id}>
+          <StyledForecastItemDateTime>
+            <StyledForecastItemDate>
+              {FormatDateTime(getForecastDate(forecast), DateTime.Date)}
+            </StyledForecastItemDate>
+            <StyledForecastItemTime>
+              {FormatDateTime(getForecastDate(forecast), DateTime.Time)}
+            </StyledForecastItemTime>
+          </StyledForecastItemDateTime>
+          <StyledForecastItemResult>
+            <StyledForecastItemResultScore>
+              {forecast.goal1}
+            </StyledForecastItemResultScore>
+            <StyledForecastItemResultScore>
+              {forecast.goal2}
+            </StyledForecastItemResultScore>
+          </StyledForecastItemResult>
+          <StyledForecastItemUser>
+            {JSON.parse(JSON.stringify(forecast.user)).username}
+          </StyledForecastItemUser>
+          <StyledForecastItemPoints>{forecast.result}</StyledForecastItemPoints>
+        </StyledForecastItem>
+        {/* <StyledMatchItem key={match._id} href={match.linkToBet}>
           <StyledMatchItemDateTime>
             <StyledMatchItemDate>
               {FormatDateTime(match.date, DateTime.Date)}
@@ -115,20 +112,22 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
           ) : isNotForecast ? (
             <StyledMatchItemStatus>{matchStatus}</StyledMatchItemStatus>
           ) : null}
-        </StyledMatchItem>
+        </StyledMatchItem> */}
       </Fragment>
     );
   };
 
   useEffect(() => {
-    retrieveMatches();
+    retrieveForecasts();
   }, []);
 
   return (
-    <StyledMatches>
-      <StyledMatchesList>{matches.map(renderMatchItem)}</StyledMatchesList>
-    </StyledMatches>
+    <StyledForecasts>
+      <StyledForecastsList>
+        {forecasts.map(renderForecastItem)}
+      </StyledForecastsList>
+    </StyledForecasts>
   );
 };
 
-export default Matches;
+export default Forecasts;

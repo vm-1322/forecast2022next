@@ -2,8 +2,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { connect } from 'mongoose';
 
 import {
-  isEmailValid,
-  isPasswordValid,
+  isValidEmail,
+  isValidPassword,
   hashPassword,
 } from '../../../utility/common';
 import UserModel from '../../../models/UserModel';
@@ -13,7 +13,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const { username, email, password } = req.body;
 
-  if (!username || !isEmailValid(email) || isPasswordValid(password)) {
+  if (!username || !isValidEmail(email) || isValidPassword(password)) {
     res.status(422).json({
       message: 'Invalid user name or email or password.',
     });

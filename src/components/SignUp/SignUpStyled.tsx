@@ -18,6 +18,7 @@ export const StyledSignUpForm = styled.div`
     border-radius: 4px;
     font-weight: 700;
     font-size: 16px;
+    cursor: pointer;
   }
 `;
 

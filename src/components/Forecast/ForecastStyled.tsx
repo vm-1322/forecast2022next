@@ -18,6 +18,13 @@ export const StyledForecast = styled.div`
     border-radius: 4px;
     font-weight: 700;
     font-size: 16px;
+    cursor: pointer;
+
+    &:disabled,
+    &:disabled:hover {
+      opacity: 0.3;
+      cursor: initial;
+    }
   }
 `;
 
@@ -71,12 +78,17 @@ export const StyledForecastResultGoal = styled.div`
 
   & input {
     width: 100%;
-    font-size: 1.5rem;
+    padding: 3px;
+    font-size: 1.25rem;
     text-align: center;
   }
 `;
 
 export const StyledForecastLinkToBet = styled.div`
-  margin-top: 10px;
+  margin-top: 15px;
   text-align: center;
+`;
+
+export const StyledForecastFormCheckBox = styled.div`
+  margin-top: 20px;
 `;
