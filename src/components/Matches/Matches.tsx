@@ -83,9 +83,10 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
     const isNotForecast = match.matchStatus !== MatchStatus.Forecast;
     const isViewForecast =
       forecast &&
-      match.matchStatus === MatchStatus.Forecast &&
       status === 'authenticated' &&
-      listRoles.length;
+      listRoles.length &&
+      match.matchStatus === MatchStatus.Forecast &&
+      Date.now() < match.date;
 
     let isForecast = false;
 
