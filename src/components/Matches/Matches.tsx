@@ -47,7 +47,6 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
     });
 
     const listMatches = await response.json();
-
     setMatches(listMatches);
 
     if (forecast) {
@@ -59,7 +58,6 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
       });
 
       const listForecasts = await response.json();
-
       setForecasts(listForecasts);
     }
   };
@@ -165,16 +163,18 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   return (
     <StyledMatches>
       <StyledMatchesList>{matches.map(renderMatchItem)}</StyledMatchesList>
-      <StyledMatchesStandings>
-        <Link
-          href={
-            'https://www.flashscore.com/standings/fRgR6gtF/zkyDYRLU/#/2/8/zkyDYRLU/table'
-          }
-          target={'_blank'}
-        >
-          Standings
-        </Link>
-      </StyledMatchesStandings>
+      {forecast ? null : (
+        <StyledMatchesStandings>
+          <Link
+            href={
+              'https://www.flashscore.com/standings/fRgR6gtF/zkyDYRLU/#/2/8/zkyDYRLU/table'
+            }
+            target={'_blank'}
+          >
+            Standings
+          </Link>
+        </StyledMatchesStandings>
+      )}
     </StyledMatches>
   );
 };

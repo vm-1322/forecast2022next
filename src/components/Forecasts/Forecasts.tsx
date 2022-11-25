@@ -129,8 +129,6 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
     );
   };
 
-  console.dir(forecasts);
-
   useEffect(() => {
     retrieveForecasts();
   }, []);
