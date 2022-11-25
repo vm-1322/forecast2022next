@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const StyledMatches = styled.div`
+  display: flex;
+  flex-direction: row;
   padding: 10px;
   color: ${(props) => props.theme.colors.common.black};
 
@@ -118,4 +120,8 @@ export const StyledMatchItemStatus = styled.div`
   ${(props) => props.theme.media.tablet} {
     margin-left: 30px;
   }
+`;
+
+export const StyledMatchesStandings = styled.div`
+  margin-left: 15px;
 `;

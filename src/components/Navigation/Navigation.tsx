@@ -53,16 +53,13 @@ const Navigation: React.FC<INavigationProps> = ({
                 {session.user.name ? session.user.name : 'Profile'}
               </Link>
             </StyledNavUserItem>
-            <StyledNavUserItem>
-              <Link
-                href={'/'}
-                onClick={() => {
-                  setCurrentPath('/');
-                  signOut();
-                }}
-              >
-                Log Out
-              </Link>
+            <StyledNavUserItem
+              onClick={() => {
+                setCurrentPath('/');
+                signOut();
+              }}
+            >
+              <Link href={'/'}>Log Out</Link>
             </StyledNavUserItem>
           </Fragment>
         ) : (

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 
 import { useUserRoles } from '../../hooks';
@@ -18,6 +19,7 @@ import {
   StyledMatchItemTeamName,
   StyledMatchItemTeams,
   StyledMatchesList,
+  StyledMatchesStandings,
 } from './MatchesStyled';
 import {
   IMatchesProps,
@@ -163,6 +165,16 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   return (
     <StyledMatches>
       <StyledMatchesList>{matches.map(renderMatchItem)}</StyledMatchesList>
+      <StyledMatchesStandings>
+        <Link
+          href={
+            'https://www.flashscore.com/standings/fRgR6gtF/zkyDYRLU/#/2/8/zkyDYRLU/table'
+          }
+          target={'_blank'}
+        >
+          Standings
+        </Link>
+      </StyledMatchesStandings>
     </StyledMatches>
   );
 };
