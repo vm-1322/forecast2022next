@@ -132,6 +132,7 @@ export interface IForecast {
       flag: string;
     };
     matchStatus: keyof typeof MatchStatus;
+    _id: string;
   };
 }
 

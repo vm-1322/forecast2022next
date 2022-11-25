@@ -98,6 +98,10 @@ export const StyledMatchItemForecast = styled.div`
     cursor: cell;
   }
 
+  & input.edit {
+    color: yellow;
+  }
+
   ${(props) => props.theme.media.tablet} {
     margin-left: 30px;
   }

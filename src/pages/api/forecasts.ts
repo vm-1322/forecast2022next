@@ -17,10 +17,10 @@ export default async function handler(
     const forecasthModel = ForecastModel;
     const forecasts = await forecasthModel
       .find()
-      .populate({ path: 'user', select: 'username' })
+      .populate({ path: 'user', select: 'username email' })
       .populate({
         path: 'match',
-        select: 'date team1Code team2Code result1 result2 matchStatus -_id',
+        select: 'date team1Code team2Code result1 result2 matchStatus',
       });
 
     forecasts.sort((a, b) => a.history[0].date - b.history[0].date);
@@ -39,9 +39,6 @@ export default async function handler(
       const team2 = teams.find(
         (item: ITeam) => item.code === matchJSON.team2Code
       );
-
-      console.log('team1', team1);
-      console.log('team2', team2);
 
       listForecasts.push({
         match: itemForecast.match,
@@ -65,6 +62,7 @@ export default async function handler(
             flag: team2.flag,
           },
           matchStatus: matchJSON.matchStatus,
+          _id: matchJSON._id,
         },
       });
     });

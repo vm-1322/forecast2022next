@@ -19,16 +19,23 @@ import {
   StyledMatchItemTeams,
   StyledMatchesList,
 } from './MatchesStyled';
-import { IMatchesProps, IMatch, MatchStatus, DateTime } from '../../types';
+import {
+  IMatchesProps,
+  IMatch,
+  IForecast,
+  MatchStatus,
+  DateTime,
+} from '../../types';
 import { FormatDateTime } from '../../utility/common';
 
 const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   const [matches, setMatches] = useState<Array<IMatch>>([]);
+  const [forecasts, setForecasts] = useState<Array<IForecast>>([]);
   const { data: session, status } = useSession();
   const router = useRouter();
   const listRoles = useUserRoles();
 
-  const retrieveMatches = async () => {
+  const retrieveData = async () => {
     const response = await fetch('/api/matches', {
       method: 'POST',
       headers: {
@@ -38,7 +45,21 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
     });
 
     const listMatches = await response.json();
+
     setMatches(listMatches);
+
+    if (forecast) {
+      const response = await fetch('/api/forecasts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const listForecasts = await response.json();
+
+      setForecasts(listForecasts);
+    }
   };
 
   const makeForecast = (curMatch: IMatch) => {
@@ -56,13 +77,29 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   const renderMatchItem = (match: IMatch) => {
     const win1: boolean = Number(match.result1) > Number(match.result2);
     const win2: boolean = Number(match.result1) < Number(match.result2);
-    const matchStatus = match.matchStatus;
-    const isForecast =
-      forecast &&
-      status === 'authenticated' &&
-      match.matchStatus === MatchStatus.Forecast &&
-      listRoles.length;
+
     const isNotForecast = match.matchStatus !== MatchStatus.Forecast;
+    const isViewForecast =
+      forecast &&
+      match.matchStatus === MatchStatus.Forecast &&
+      status === 'authenticated' &&
+      listRoles.length;
+
+    let isForecast = false;
+
+    if (isViewForecast) {
+      const findedForecast = forecasts.find(
+        (curForecast) => curForecast.matchDetails._id === match._id
+      );
+
+      if (findedForecast) {
+        if (
+          session.user.email ===
+          JSON.parse(JSON.stringify(findedForecast.user)).email
+        )
+          isForecast = true;
+      }
+    }
 
     return (
       <StyledMatchItem key={match._id} href={match.linkToBet}>
@@ -100,26 +137,27 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
             {match.result2}
           </StyledMatchItemResultScore>
         </StyledMatchItemResult>
-        {isForecast ? (
+        {isNotForecast ? (
+          <StyledMatchItemStatus>{match.matchStatus}</StyledMatchItemStatus>
+        ) : isViewForecast ? (
           <StyledMatchItemForecast>
             <input
               type='button'
-              value='Bet'
+              value={isForecast ? 'Edit' : 'Bet'}
               onClick={(event: React.FormEvent) => {
                 event.preventDefault();
                 makeForecast(match);
               }}
+              className={isForecast ? 'edit' : ''}
             />
           </StyledMatchItemForecast>
-        ) : isNotForecast ? (
-          <StyledMatchItemStatus>{matchStatus}</StyledMatchItemStatus>
         ) : null}
       </StyledMatchItem>
     );
   };
 
   useEffect(() => {
-    retrieveMatches();
+    retrieveData();
   }, []);
 
   return (
