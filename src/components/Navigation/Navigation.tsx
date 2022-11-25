@@ -57,8 +57,8 @@ const Navigation: React.FC<INavigationProps> = ({
               <Link
                 href={'/'}
                 onClick={() => {
-                  router.replace('/');
                   signOut();
+                  router.replace('/');
                 }}
               >
                 Log Out
