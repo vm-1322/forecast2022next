@@ -44,29 +44,16 @@ export default async function handler(
       if (ForecastAction[forecastAction] === ForecastAction.Read) {
         connection.disconnect();
 
-        // ForecastAction.Read
-
-        console.log('ForecastAction.Read', ForecastAction.Read);
-        console.log('forecast', forecast);
-
         return res.status(200).json({});
       }
 
       if (ForecastAction[forecastAction] === ForecastAction.Write) {
         connection.disconnect();
 
-        // ForecastAction.Write
-
-        console.log('ForecastAction.Write', ForecastAction.Write);
-        console.log('forecast', forecast);
-
         return res.status(404).json({ message: 'Not found' });
       }
 
       // ForecastAction.Create
-
-      console.log('ForecastAction.Create', ForecastAction.Create);
-      console.log('forecast', forecast);
 
       try {
         const newForecast = await forecastModel.create({
@@ -97,21 +84,11 @@ export default async function handler(
     if (ForecastAction[forecastAction] === ForecastAction.Create) {
       connection.disconnect();
 
-      // ForecastAction.Create
-
-      console.log('ForecastAction.Create', ForecastAction.Create);
-      console.log('forecast', forecast);
-
       return res.status(409).json({ message: 'Conflict' });
     }
 
     if (ForecastAction[forecastAction] === ForecastAction.Read) {
       connection.disconnect();
-
-      // ForecastAction.Read
-
-      console.log('ForecastAction.Read', ForecastAction.Read);
-      console.log('forecast', forecast);
 
       return res.status(200).json({
         user: forecast.user,
@@ -121,13 +98,6 @@ export default async function handler(
         history: forecast.history,
       });
     }
-
-    // ForecastAction.Write
-
-    console.log('ForecastAction.Write', ForecastAction.Write);
-    console.log('forecast', forecast);
-
-    connection.disconnect();
   } catch (error) {
     res.status(400).json(error);
   }

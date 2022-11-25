@@ -59,7 +59,7 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
     };
 
     return (
-      <StyledForecastItem key={forecast._id}>
+      <StyledForecastItem key={forecast.matchDetails._id}>
         <StyledForecastItemDateTime>
           <StyledForecastItemDate>
             {FormatDateTime(getForecastDate(forecast), DateTime.Date)}
