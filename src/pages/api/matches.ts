@@ -35,21 +35,9 @@ export default async function handler(
       listMatches.push({
         date: itemMatch.date,
         team1Code: itemMatch.team1Code,
-        team1: {
-          code: team1.code,
-          name: team1.name,
-          flag: team1.flag,
-          link: team1.link,
-          _id: team1._id,
-        },
+        team1: itemMatch.team1,
+        team2: itemMatch.team2,
         team2Code: itemMatch.team2Code,
-        team2: {
-          code: team2.code,
-          name: team2.name,
-          flag: team2.flag,
-          link: team2.link,
-          _id: team2._id,
-        },
         result1: itemMatch.result1,
         result2: itemMatch.result2,
         stage: itemMatch.stage,
@@ -57,6 +45,18 @@ export default async function handler(
         forecast: itemMatch.forecast,
         linkToBet: itemMatch.linkToBet,
         _id: itemMatch._id,
+        matchDetails: {
+          team1: {
+            code: team1.code,
+            name: team1.name,
+            flag: team1.flag,
+          },
+          team2: {
+            code: team2.code,
+            name: team2.name,
+            flag: team2.flag,
+          },
+        },
       });
     });
 

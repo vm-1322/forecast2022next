@@ -47,7 +47,6 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
     });
 
     const listMatches = await response.json();
-
     setMatches(listMatches);
 
     if (forecast) {
@@ -59,7 +58,6 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
       });
 
       const listForecasts = await response.json();
-
       setForecasts(listForecasts);
     }
   };
@@ -92,16 +90,12 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
 
     if (isViewForecast) {
       const findedForecast = forecasts.find(
-        (curForecast) => curForecast.matchDetails._id === match._id
+        (curForecast) =>
+          curForecast.matchDetails._id === match._id &&
+          curForecast.matchDetails.user.email === session.user.email
       );
 
-      if (findedForecast) {
-        if (
-          session.user.email ===
-          JSON.parse(JSON.stringify(findedForecast.user)).email
-        )
-          isForecast = true;
-      }
+      if (findedForecast) isForecast = true;
     }
 
     return (
@@ -117,18 +111,24 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
         <StyledMatchItemTeams>
           <StyledMatchItemTeam>
             <StyledMatchItemTeamFlag>
-              <img src={match.team1.flag} alt={match.team1.code} />
+              <img
+                src={match.matchDetails.team1.flag}
+                alt={match.matchDetails.team1.code}
+              />
             </StyledMatchItemTeamFlag>
             <StyledMatchItemTeamName isWin={win1}>
-              {match.team1.name}
+              {match.matchDetails.team1.name}
             </StyledMatchItemTeamName>
           </StyledMatchItemTeam>
           <StyledMatchItemTeam>
             <StyledMatchItemTeamFlag>
-              <img src={match.team2.flag} alt={match.team2.code} />
+              <img
+                src={match.matchDetails.team2.flag}
+                alt={match.matchDetails.team2.code}
+              />
             </StyledMatchItemTeamFlag>
             <StyledMatchItemTeamName isWin={win2}>
-              {match.team2.name}
+              {match.matchDetails.team2.name}
             </StyledMatchItemTeamName>
           </StyledMatchItemTeam>
         </StyledMatchItemTeams>
@@ -166,16 +166,18 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   return (
     <StyledMatches>
       <StyledMatchesList>{matches.map(renderMatchItem)}</StyledMatchesList>
-      <StyledMatchesStandings>
-        <Link
-          href={
-            'https://www.flashscore.com/standings/fRgR6gtF/zkyDYRLU/#/2/8/zkyDYRLU/table'
-          }
-          target={'_blank'}
-        >
-          Standings
-        </Link>
-      </StyledMatchesStandings>
+      {forecast ? null : (
+        <StyledMatchesStandings>
+          <Link
+            href={
+              'https://www.flashscore.com/standings/fRgR6gtF/zkyDYRLU/#/2/8/zkyDYRLU/table'
+            }
+            target={'_blank'}
+          >
+            Standings
+          </Link>
+        </StyledMatchesStandings>
+      )}
     </StyledMatches>
   );
 };

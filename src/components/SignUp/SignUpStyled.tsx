@@ -7,6 +7,7 @@ export const StyledSignUpForm = styled.div`
   border: 1px solid #b3b3b3;
   border-radius: 5px;
   background: ${(props) => props.theme.colors.gainsboro};
+  box-shadow: 10px 10px 10px 0px rgba(217, 213, 217, 1);
 
   & input[type='submit'] {
     display: block;

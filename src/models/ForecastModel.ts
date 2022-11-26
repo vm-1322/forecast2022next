@@ -42,4 +42,4 @@ const ForecastSchema = new Schema<IForecast>({
   },
 });
 
-export default model('Forecast', ForecastSchema);
+export default model<IForecast>('Forecast', ForecastSchema);
