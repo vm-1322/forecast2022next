@@ -53,8 +53,6 @@ export default async function handler(
         return res.status(404).json({ message: 'Not found' });
       }
 
-      // ForecastAction.Create
-
       try {
         const newForecast = await forecastModel.create({
           match: matchId,
@@ -98,6 +96,28 @@ export default async function handler(
         history: forecast.history,
       });
     }
+
+    // ForecastAction.Write
+
+    forecast.history.push({
+      date: Date.now(),
+      goal1: goal1,
+      goal2: goal2,
+    });
+
+    const updatedForecast = await forecastModel.findOneAndUpdate(
+      {
+        match: matchId,
+        user: user._id,
+      },
+      {
+        goal1: goal1,
+        goal2: goal2,
+        history: forecast.history,
+      }
+    );
+
+    return res.status(200).json({ updatedForecast });
   } catch (error) {
     res.status(400).json(error);
   }

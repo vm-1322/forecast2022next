@@ -51,7 +51,6 @@ export interface IFooterProps {
 
 export interface IForecastProps {
   match: IMatch;
-  forecast: IForecast;
   className?: string;
 }
 
