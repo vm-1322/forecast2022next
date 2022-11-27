@@ -51,7 +51,6 @@ export interface IFooterProps {
 
 export interface IForecastProps {
   match: IMatch;
-  forecast: IForecast;
   className?: string;
 }
 
@@ -118,6 +117,7 @@ export interface IForecast {
   result: string;
   _id?: string;
   matchDetails?: {
+    user: { username: string; email: string };
     date: number;
     result1: number;
     result2: number;
@@ -139,21 +139,9 @@ export interface IForecast {
 export interface IMatch {
   date: number;
   team1Code: string;
-  team1?: {
-    code: string;
-    name: string;
-    flag?: string;
-    link?: string;
-    _id?: string;
-  };
+  team1: Schema.Types.ObjectId;
   team2Code: string;
-  team2?: {
-    code: string;
-    name: string;
-    flag?: string;
-    link?: string;
-    _id?: string;
-  };
+  team2: Schema.Types.ObjectId;
   result1: string;
   result2: string;
   stage: {
@@ -165,6 +153,18 @@ export interface IMatch {
   forecast: boolean;
   linkToBet: string;
   _id?: string;
+  matchDetails?: {
+    team1: {
+      code: string;
+      name: string;
+      flag: string;
+    };
+    team2: {
+      code: string;
+      name: string;
+      flag: string;
+    };
+  };
 }
 
 export interface IRole {

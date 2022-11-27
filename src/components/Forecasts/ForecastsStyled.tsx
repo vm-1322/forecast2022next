@@ -63,6 +63,7 @@ export const StyledForecastItemResultScore = styled.div`
 export const StyledForecastItemUserPoints = styled.div`
   displey: flex;
   flex-direction: column;
+  justify-content: center;
   text-align: center;
 
   ${(props) => props.theme.media.desktop} {
@@ -74,14 +75,12 @@ export const StyledForecastItemUserPoints = styled.div`
 export const StyledForecastItemUser = styled.div`
   width: 100px;
   margin-left: 10px;
-  line-height: 50px;
 `;
 
 export const StyledForecastItemPoints = styled.div`
   width: 10px;
   margin: 0 auto;
   text-align: center;
-  line-height: 50px;
 
   ${(props) => props.theme.media.desktop} {
     margin: 0 20px 0 10px;
@@ -96,6 +95,7 @@ export const StyledForecastItemMatchDateTime = styled.div`
   padding-right: 10px;
 
   ${(props) => props.theme.media.tablet} {
+    width: 100px;
     padding: 0 10px;
   }
 `;
@@ -150,13 +150,12 @@ export const StyledForecastItemMatchResultScore = styled.div<{
 
 export const StyledForecastItemMatchStatus = styled.div`
   width: 90px;
-  margin-left: 15px;
+  margin-left: 5px;
   padding: 5px;
-  font-size: 1rem;
   text-align: center;
   line-height: 40px;
 
   ${(props) => props.theme.media.tablet} {
-    margin-left: 30px;
+    margin-left: 15px;
   }
 `;

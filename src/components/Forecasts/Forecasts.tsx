@@ -43,29 +43,36 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
     setForecasts(listForecasts);
   };
 
+  const getForecastDate = (curForecast: IForecast): number => {
+    curForecast.history.sort((a, b) => b.date - a.date);
+
+    return curForecast.history[0].date;
+  };
+
   const renderForecastItem = (forecast: IForecast) => {
+    if (
+      forecast.matchDetails.date > Date.now() &&
+      forecast.matchDetails.user.email !== session.user.email
+    )
+      return null;
+
+    const forecastDate = getForecastDate(forecast);
+
     const win1: boolean =
       Number(forecast.matchDetails.result1) >
       Number(forecast.matchDetails.result2);
     const win2: boolean =
       Number(forecast.matchDetails.result1) <
       Number(forecast.matchDetails.result2);
-    const matchStatus = forecast.matchDetails.matchStatus;
-
-    const getForecastDate = (curForecast: IForecast): number => {
-      curForecast.history.sort((a, b) => b.date - a.date);
-
-      return curForecast.history[0].date;
-    };
 
     return (
       <StyledForecastItem key={forecast.matchDetails._id}>
         <StyledForecastItemDateTime>
           <StyledForecastItemDate>
-            {FormatDateTime(getForecastDate(forecast), DateTime.Date)}
+            {FormatDateTime(forecastDate, DateTime.Date)}
           </StyledForecastItemDate>
           <StyledForecastItemTime>
-            {FormatDateTime(getForecastDate(forecast), DateTime.Time)}
+            {FormatDateTime(forecastDate, DateTime.Time)}
           </StyledForecastItemTime>
         </StyledForecastItemDateTime>
         <StyledForecastItemResult>
@@ -78,7 +85,7 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
         </StyledForecastItemResult>
         <StyledForecastItemUserPoints>
           <StyledForecastItemUser>
-            {JSON.parse(JSON.stringify(forecast.user)).username}
+            {forecast.matchDetails.user.username}
           </StyledForecastItemUser>
           <StyledForecastItemPoints>{forecast.result}</StyledForecastItemPoints>
         </StyledForecastItemUserPoints>

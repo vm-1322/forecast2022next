@@ -17,20 +17,19 @@ export default async function handler(
     const forecasthModel = ForecastModel;
     const forecasts = await forecasthModel
       .find()
-      .populate({ path: 'user', select: 'username email' })
-      .populate({
-        path: 'match',
-        select: 'date team1Code team2Code result1 result2 matchStatus',
-      });
-
-    forecasts.sort((a, b) => a.history[0].date - b.history[0].date);
-
-    const listForecasts: Array<IForecast> = [];
+      .populate('user', 'username email')
+      .populate(
+        'match',
+        'date team1 team1Code team2 team2Code result1 result2 matchStatus linlToBet'
+      );
 
     const teamModel = TeamModel;
     const teams = await teamModel.find();
 
+    const listForecasts: Array<IForecast> = [];
+
     forecasts.forEach((itemForecast: IForecast) => {
+      const userJSON = JSON.parse(JSON.stringify(itemForecast.user));
       const matchJSON = JSON.parse(JSON.stringify(itemForecast.match));
 
       const team1 = teams.find(
@@ -41,13 +40,14 @@ export default async function handler(
       );
 
       listForecasts.push({
-        match: itemForecast.match,
-        user: itemForecast.user,
         goal1: itemForecast.goal1,
         goal2: itemForecast.goal2,
         history: itemForecast.history,
         result: itemForecast.result,
+        user: userJSON._id,
+        match: matchJSON._id,
         matchDetails: {
+          user: { username: userJSON.username, email: userJSON.email },
           date: matchJSON.date,
           result1: matchJSON.result1,
           result2: matchJSON.result2,
@@ -66,6 +66,8 @@ export default async function handler(
         },
       });
     });
+
+    listForecasts.sort((a, b) => a.history[0].date - b.history[0].date);
 
     res.status(200).json(listForecasts);
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -18,42 +18,21 @@ import {
   StyledForecastTitle,
   StyledForecastLinkToBet,
 } from './ForecastStyled';
-import {
-  IForecastProps,
-  IForecast,
-  IMatch,
-  ITeam,
-  ForecastAction,
-} from '../../types';
+import { IForecastProps, ITeam, ForecastAction } from '../../types';
 import { FormatDateTime, getSage } from '../../utility/common';
 
-const Forecast: React.FC<IForecastProps> = ({ match, forecast, className }) => {
+const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
   if (JSON.stringify(match) === '{}') return null;
 
+  const [forecastAction, setForecastAction] = useState(ForecastAction.Create);
+  const [goal1, setGoal1] = useState(null);
+  const [goal2, setGoal2] = useState(null);
   const [forecastCorrect, setForecastCorrect] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const goal1InputRef = useRef<HTMLInputElement>();
-  const goal2InputRef = useRef<HTMLInputElement>();
-
-  // console.log('forecast', forecast);
-
-  // if (JSON.stringify(forecast) !== '{}') {
-  //   match = {
-  //     ...match,
-  //     result1: '0',
-  //     result2: '1',
-  //   };
-  // }
-
   const betHandler = async () => {
-    const forecastAction =
-      JSON.stringify(forecast) === '{}'
-        ? ForecastAction.Create
-        : ForecastAction.Write;
-
-    const response = await fetch('/api/forecast', {
+    await fetch('/api/forecast', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -62,13 +41,38 @@ const Forecast: React.FC<IForecastProps> = ({ match, forecast, className }) => {
         forecastAction: forecastAction,
         matchId: match._id,
         userEmail: session.user.email,
-        goal1: goal1InputRef.current.value,
-        goal2: goal2InputRef.current.value,
+        goal1: goal1,
+        goal2: goal2,
       }),
     });
 
     router.replace('/forecasts');
   };
+
+  const retriveForecast = async () => {
+    const response = await fetch('/api/forecast', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        matchId: match._id,
+        userEmail: session.user.email,
+      }),
+    });
+
+    const curForecast = await response.json();
+
+    if (JSON.stringify(curForecast) !== '{}')
+      setForecastAction(ForecastAction.Write);
+
+    setGoal1(curForecast.goal1);
+    setGoal2(curForecast.goal2);
+  };
+
+  useEffect(() => {
+    retriveForecast();
+  }, []);
 
   const renderTeamItem = (team: ITeam) => {
     return (
@@ -95,15 +99,27 @@ const Forecast: React.FC<IForecastProps> = ({ match, forecast, className }) => {
           <StyledForecastStage>{getSage(match)}</StyledForecastStage>
         </StyledForecastDateStage>
         <StyledForecastTeams>
-          {renderTeamItem(match.team1)}
-          {renderTeamItem(match.team2)}
+          {renderTeamItem(match.matchDetails.team1)}
+          {renderTeamItem(match.matchDetails.team2)}
         </StyledForecastTeams>
         <StyledForecastResult>
           <StyledForecastResultGoal>
-            <input type='Number' min={0} required ref={goal1InputRef} />
+            <input
+              type='Number'
+              min={0}
+              value={goal1}
+              required
+              onChange={(e) => setGoal1(e.target.value)}
+            />
           </StyledForecastResultGoal>
           <StyledForecastResultGoal>
-            <input type='Number' min={0} required ref={goal2InputRef} />
+            <input
+              type='Number'
+              min={0}
+              value={goal2}
+              required
+              onChange={(e) => setGoal2(e.target.value)}
+            />
           </StyledForecastResultGoal>
         </StyledForecastResult>
         <StyledForecastFormCheckBox>

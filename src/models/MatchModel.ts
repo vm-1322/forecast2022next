@@ -16,7 +16,7 @@ const MatchSchema = new Schema<IMatch>({
   },
   team1: {
     type: Schema.Types.ObjectId,
-    ref: 'team1',
+    ref: 'Team1',
   },
   team2Code: {
     type: String,
@@ -27,7 +27,8 @@ const MatchSchema = new Schema<IMatch>({
   },
   team2: {
     type: Schema.Types.ObjectId,
-    ref: 'team2',
+    required: true,
+    ref: 'Team2',
   },
   result1: {
     type: String,
@@ -65,4 +66,4 @@ const MatchSchema = new Schema<IMatch>({
   },
 });
 
-export default model('Match', MatchSchema);
+export default model<IMatch>('Match', MatchSchema);

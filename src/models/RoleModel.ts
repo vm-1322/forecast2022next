@@ -10,4 +10,4 @@ const RoleSchema = new Schema<IRole>({
   },
 });
 
-export default model('Role', RoleSchema);
+export default model<IRole>('Role', RoleSchema);

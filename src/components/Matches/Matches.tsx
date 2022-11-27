@@ -90,16 +90,12 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
 
     if (isViewForecast) {
       const findedForecast = forecasts.find(
-        (curForecast) => curForecast.matchDetails._id === match._id
+        (curForecast) =>
+          curForecast.matchDetails._id === match._id &&
+          curForecast.matchDetails.user.email === session.user.email
       );
 
-      if (findedForecast) {
-        if (
-          session.user.email ===
-          JSON.parse(JSON.stringify(findedForecast.user)).email
-        )
-          isForecast = true;
-      }
+      if (findedForecast) isForecast = true;
     }
 
     return (
@@ -115,18 +111,24 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
         <StyledMatchItemTeams>
           <StyledMatchItemTeam>
             <StyledMatchItemTeamFlag>
-              <img src={match.team1.flag} alt={match.team1.code} />
+              <img
+                src={match.matchDetails.team1.flag}
+                alt={match.matchDetails.team1.code}
+              />
             </StyledMatchItemTeamFlag>
             <StyledMatchItemTeamName isWin={win1}>
-              {match.team1.name}
+              {match.matchDetails.team1.name}
             </StyledMatchItemTeamName>
           </StyledMatchItemTeam>
           <StyledMatchItemTeam>
             <StyledMatchItemTeamFlag>
-              <img src={match.team2.flag} alt={match.team2.code} />
+              <img
+                src={match.matchDetails.team2.flag}
+                alt={match.matchDetails.team2.code}
+              />
             </StyledMatchItemTeamFlag>
             <StyledMatchItemTeamName isWin={win2}>
-              {match.team2.name}
+              {match.matchDetails.team2.name}
             </StyledMatchItemTeamName>
           </StyledMatchItemTeam>
         </StyledMatchItemTeams>
