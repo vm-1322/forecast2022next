@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const StyledForecasts = styled.div`
-  padding: 10px;
+  padding: 5px;
   color: ${(props) => props.theme.colors.common.black};
 
   ${(props) => props.theme.media.tablet} {
-    padding: 25px;
+    padding: 20px;
   }
 `;
 
@@ -149,13 +149,14 @@ export const StyledForecastItemMatchResultScore = styled.div<{
 `;
 
 export const StyledForecastItemMatchStatus = styled.div`
-  width: 90px;
-  margin-left: 5px;
+  width: 70px;
+  margin-left: 7px;
   padding: 5px;
   text-align: center;
   line-height: 40px;
 
   ${(props) => props.theme.media.tablet} {
-    margin-left: 15px;
+    width: 90px;
+    margin-left: 20px;
   }
 `;

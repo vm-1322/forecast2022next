@@ -3,11 +3,11 @@ import styled from 'styled-components';
 export const StyledMatches = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 10px;
+  padding: 5px;
   color: ${(props) => props.theme.colors.common.black};
 
   ${(props) => props.theme.media.tablet} {
-    padding: 25px;
+    padding: 20px;
   }
 `;
 
@@ -31,10 +31,11 @@ export const StyledMatchItemDateTime = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 120px;
+  width: 75px;
   padding-right: 10px;
 
   ${(props) => props.theme.media.tablet} {
+    width: 120px;
     padding: 0 10px;
   }
 `;
@@ -85,7 +86,7 @@ export const StyledMatchItemForecast = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 90px;
-  margin-left: 15px;
+  margin-left: 7px;
 
   & input {
     display: block;
@@ -105,23 +106,22 @@ export const StyledMatchItemForecast = styled.div`
   }
 
   ${(props) => props.theme.media.tablet} {
-    margin-left: 30px;
+    margin-left: 20px;
   }
 `;
 
 export const StyledMatchItemStatus = styled.div`
   width: 90px;
-  margin-left: 15px;
+  margin-left: 7px;
   padding: 5px;
-  font-size: 1rem;
   text-align: center;
   line-height: 40px;
 
   ${(props) => props.theme.media.tablet} {
-    margin-left: 30px;
+    margin-left: 20px;
   }
 `;
 
 export const StyledMatchesStandings = styled.div`
-  margin-left: 15px;
+  margin-left: 10px;
 `;
