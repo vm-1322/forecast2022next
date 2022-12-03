@@ -14,12 +14,27 @@ export const StyledDashboardMatchItem = styled.div`
   }
 `;
 
+export const StyledDashboardMatchItemStatusEdit = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const StyledDashboardMatchItemStatus = styled.div`
+  margin-left: 3px;
+  line-height: 30px;
+
+  ${(props) => props.theme.media.tablet} {
+    margin-left: 20px;
+  }
+`;
+
 export const StyledDashboardMatchItemEdit = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 90px;
-  margin-right: 10px;
+  width: 42px;
+  margin-left: 3px;
+  background-color: inherit;
 
   & input {
     display: block;
@@ -32,6 +47,11 @@ export const StyledDashboardMatchItemEdit = styled.div`
     color: white;
     font-size: 1rem;
     cursor: cell;
+  }
+
+  ${(props) => props.theme.media.tablet} {
+    width: 90px;
+    margin-left: 20px;
   }
 `;
 

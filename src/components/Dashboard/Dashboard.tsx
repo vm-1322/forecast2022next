@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import Match from 'components/Matches/Match';
@@ -7,6 +7,8 @@ import {
   StyledDashboard,
   StyledDashboardMatchestsList,
   StyledDashboardMatchItem,
+  StyledDashboardMatchItemStatusEdit,
+  StyledDashboardMatchItemStatus,
   StyledDashboardMatchItemEdit,
   StyledDashboardCreateMatch,
 } from './DashboardStyled';
@@ -56,17 +58,26 @@ const Dashboard: React.FC<IDashboardProps> = ({ className }) => {
   const renderMatchItem = (match: IMatch) => {
     return (
       <StyledDashboardMatchItem>
-        <Match match={match} />
-        <StyledDashboardMatchItemEdit>
-          <input
-            type='button'
-            value='Edit'
-            onClick={(event: React.FormEvent) => {
-              event.preventDefault();
-              editMatch(match);
-            }}
-          />
-        </StyledDashboardMatchItemEdit>
+        <Match
+          match={match}
+          matchStatus={
+            <StyledDashboardMatchItemStatusEdit>
+              <StyledDashboardMatchItemStatus>
+                {match.matchStatus}
+              </StyledDashboardMatchItemStatus>
+              <StyledDashboardMatchItemEdit>
+                <input
+                  type='button'
+                  value='Edit'
+                  onClick={(event: React.FormEvent) => {
+                    event.preventDefault();
+                    editMatch(match);
+                  }}
+                />
+              </StyledDashboardMatchItemEdit>
+            </StyledDashboardMatchItemStatusEdit>
+          }
+        />
       </StyledDashboardMatchItem>
     );
   };

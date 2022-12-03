@@ -2,9 +2,12 @@ import styled from 'styled-components';
 
 export const StyledMatchItem = styled.a`
   display: flex;
-  width: 100%;
-  padding: 10px;
+  padding: 5px;
   background-color: inherit;
+
+  ${(props) => props.theme.media.tablet} {
+    padding: 10px;
+  }
 `;
 
 export const StyledMatchItemDateTime = styled.div`
