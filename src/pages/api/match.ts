@@ -55,10 +55,6 @@ export default async function handler(
 
     connection.disconnect();
   } catch (error) {
-    console.log('error', error);
     res.status(400).json(error);
   }
-
-  console.log('create', create);
-  console.log('match', match);
 }

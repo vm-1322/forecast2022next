@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const StyledMatches = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: 5px;
   color: ${(props) => props.theme.colors.common.black};
 
