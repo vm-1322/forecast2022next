@@ -1,34 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 
-import { useUserRoles } from '../../hooks';
+import Match from './Match';
+import { useUserRoles } from 'hooks';
+import { IMatchesProps, IMatch, IForecast, MatchStatus } from 'types';
 import {
   StyledMatches,
   StyledMatchItem,
-  StyledMatchItemDateTime,
-  StyledMatchItemDate,
-  StyledMatchItemTime,
   StyledMatchItemForecast,
-  StyledMatchItemResult,
-  StyledMatchItemResultScore,
-  StyledMatchItemStatus,
-  StyledMatchItemTeam,
-  StyledMatchItemTeamFlag,
-  StyledMatchItemTeamName,
-  StyledMatchItemTeams,
   StyledMatchesList,
-  StyledMatchesStandings,
 } from './MatchesStyled';
-import {
-  IMatchesProps,
-  IMatch,
-  IForecast,
-  MatchStatus,
-  DateTime,
-} from '../../types';
-import { FormatDateTime } from '../../utility/common';
 
 const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   const [matches, setMatches] = useState<Array<IMatch>>([]);
@@ -75,10 +57,6 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   };
 
   const renderMatchItem = (match: IMatch) => {
-    const win1: boolean = Number(match.result1) > Number(match.result2);
-    const win2: boolean = Number(match.result1) < Number(match.result2);
-
-    const isNotForecast = match.matchStatus !== MatchStatus.Forecast;
     const isViewForecast =
       forecast &&
       status === 'authenticated' &&
@@ -99,62 +77,25 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
     }
 
     return (
-      <StyledMatchItem key={match._id} href={match.linkToBet}>
-        <StyledMatchItemDateTime>
-          <StyledMatchItemDate>
-            {FormatDateTime(match.date, DateTime.Date)}
-          </StyledMatchItemDate>
-          <StyledMatchItemTime>
-            {FormatDateTime(match.date, DateTime.Time)}
-          </StyledMatchItemTime>
-        </StyledMatchItemDateTime>
-        <StyledMatchItemTeams>
-          <StyledMatchItemTeam>
-            <StyledMatchItemTeamFlag>
-              <img
-                src={match.matchDetails.team1.flag}
-                alt={match.matchDetails.team1.code}
-              />
-            </StyledMatchItemTeamFlag>
-            <StyledMatchItemTeamName isWin={win1}>
-              {match.matchDetails.team1.name}
-            </StyledMatchItemTeamName>
-          </StyledMatchItemTeam>
-          <StyledMatchItemTeam>
-            <StyledMatchItemTeamFlag>
-              <img
-                src={match.matchDetails.team2.flag}
-                alt={match.matchDetails.team2.code}
-              />
-            </StyledMatchItemTeamFlag>
-            <StyledMatchItemTeamName isWin={win2}>
-              {match.matchDetails.team2.name}
-            </StyledMatchItemTeamName>
-          </StyledMatchItemTeam>
-        </StyledMatchItemTeams>
-        <StyledMatchItemResult>
-          <StyledMatchItemResultScore isWin={win1}>
-            {match.result1}
-          </StyledMatchItemResultScore>
-          <StyledMatchItemResultScore isWin={win2}>
-            {match.result2}
-          </StyledMatchItemResultScore>
-        </StyledMatchItemResult>
-        {isNotForecast ? (
-          <StyledMatchItemStatus>{match.matchStatus}</StyledMatchItemStatus>
-        ) : isViewForecast ? (
-          <StyledMatchItemForecast>
-            <input
-              type='button'
-              value={isForecast ? 'Edit' : 'Bet'}
-              onClick={(event: React.FormEvent) => {
-                event.preventDefault();
-                makeForecast(match);
-              }}
-              className={isForecast ? 'edit' : ''}
-            />
-          </StyledMatchItemForecast>
-        ) : null}
+      <StyledMatchItem>
+        <Match
+          match={match}
+          matchStatus={
+            isViewForecast ? (
+              <StyledMatchItemForecast>
+                <input
+                  type='button'
+                  value={isForecast ? 'Edit' : 'Bet'}
+                  onClick={(event: React.FormEvent) => {
+                    event.preventDefault();
+                    makeForecast(match);
+                  }}
+                  className={isForecast ? 'edit' : ''}
+                />
+              </StyledMatchItemForecast>
+            ) : null
+          }
+        />
       </StyledMatchItem>
     );
   };
@@ -166,7 +107,7 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   return (
     <StyledMatches>
       <StyledMatchesList>{matches.map(renderMatchItem)}</StyledMatchesList>
-      {forecast ? null : (
+      {/* {forecast ? null : (
         <StyledMatchesStandings>
           <Link
             href={
@@ -177,7 +118,7 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
             Standings
           </Link>
         </StyledMatchesStandings>
-      )}
+      )} */}
     </StyledMatches>
   );
 };

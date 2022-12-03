@@ -1,19 +1,20 @@
 import { useRouter } from 'next/router';
 
 import Layout from 'components/Layout';
-import Forecast from 'components/Forecast';
+import MatchEdit from 'components/Matches/MatchEdit';
 
-const ForecastPage: React.FC = () => {
+const MatchEditPage: React.FC = () => {
   const router = useRouter();
 
   const queryMatch = (router.query.match as string) || '{}';
   const curMatch = JSON.parse(queryMatch);
+  const queryCreate = (router.query.create as string) || false;
 
   return (
     <Layout>
-      <Forecast match={curMatch} />
+      <MatchEdit match={curMatch} create={queryCreate as boolean} />
     </Layout>
   );
 };
 
-export default ForecastPage;
+export default MatchEditPage;

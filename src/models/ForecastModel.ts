@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { IForecast } from '../types/index';
+import { IForecast } from 'types';
 
 const ForecastSchema = new Schema<IForecast>({
   user: {

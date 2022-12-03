@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { connect } from 'mongoose';
 
-import TeamModel from '../../models/TeamModel';
+import TeamModel from 'models/TeamModel';
 
 export default async function handler(
   req: NextApiRequest,

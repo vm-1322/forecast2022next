@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const StyledNav = styled.nav`
+  position: sticky;
+  top: 70px;
   display: flex;
   flext-direction: row;
   flex-wrap: nowrap;
@@ -10,6 +12,13 @@ export const StyledNav = styled.nav`
   border-top: 1px solid rgb(0, 0, 0, 7%);
   box-shadow: rgb(0 0 0 / 7%) 0px 1px 0px;
   color: ${(props) => props.theme.colors.primary};
+  z-index: 10;
+
+  ${(props) => props.theme.media.tablet} {
+    top: 90px;
+  }}
+
+
 `;
 
 export const StyledNavItems = styled.div`

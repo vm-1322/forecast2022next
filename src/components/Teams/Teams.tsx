@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { ITeamsProps, ITeam } from 'types';
 import {
   StyledTeams,
   StyledTeamItem,
@@ -8,8 +9,6 @@ import {
   StyledTeamsList,
   StyledTeamsTitle,
 } from './TeamsStyled';
-
-import { ITeamsProps, ITeam } from '../../types';
 
 const Teams: React.FC<ITeamsProps> = ({ className }) => {
   const [teams, setTeams] = useState<Array<ITeam>>([]);

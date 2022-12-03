@@ -2,9 +2,9 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { connect } from 'mongoose';
 
-import { checkPassword } from '../../../utility/common';
-import UserModel from '../../../models/UserModel';
-import RoleModel from '../../../models/RoleModel';
+import UserModel from 'models/UserModel';
+import RoleModel from 'models/RoleModel';
+import { checkPassword } from 'utility/common';
 
 export const authOptions = {
   providers: [

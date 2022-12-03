@@ -2,13 +2,13 @@ import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 
+import { ILogInProps } from 'types';
 import {
   StyledLogInForm,
   StyledLogInFormCheckBox,
   StyledLogInFormInput,
   StyledLogInFormResetPassword,
 } from './LogInStyled';
-import { ILogInProps } from '../../types';
 
 const LogIn: React.FC<ILogInProps> = ({ className }) => {
   const [showPassword, setShowPassword] = useState(false);

@@ -1,5 +1,5 @@
 import { hash, compare } from 'bcryptjs';
-import { IMatch, Stages, Rounds, DateTime } from '../types';
+import { IMatch, Stages, Rounds, DateTime } from 'types';
 
 /*
  * Password
@@ -82,8 +82,31 @@ export const getSage = (match: IMatch) => {
       curStage += ` - Round ${stage.round}`;
     }
   } else {
-    curStage += `${stage.groupRound} ${Rounds[stage.kind]}`;
+    curStage += `${Rounds[stage.groupRound]}`;
   }
 
   return curStage;
+};
+
+/*
+ * String
+ */
+
+export const rightString = (str: string, num: number): string => {
+  return str.slice(-num);
+};
+
+/*
+ * Date
+ */
+
+export const timeStampToDate = (timeStamp: number): string => {
+  const curDate = new Date(timeStamp);
+  const curYear = curDate.getFullYear();
+  const curMonth = rightString('0' + (curDate.getMonth() + 1), 2);
+  const curDay = rightString('0' + curDate.getDate(), 2);
+  const curHour = rightString('0' + curDate.getHours(), 2);
+  const curMin = rightString('0' + curDate.getMinutes(), 2);
+
+  return `${curYear}-${curMonth}-${curDay}T${curHour}:${curMin}`;
 };

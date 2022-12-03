@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { IMatch } from '../types/index';
+import { IMatch } from 'types';
 
 const MatchSchema = new Schema<IMatch>({
   date: {

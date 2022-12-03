@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { IUser } from '../types/index';
+import { IUser } from 'types';
 
 const UserSchema = new Schema<IUser>({
   username: {

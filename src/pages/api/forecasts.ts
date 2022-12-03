@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connect } from 'mongoose';
 
-import ForecastModel from '../../models/ForecastModel';
-import TeamModel from '../../models/TeamModel';
-import { IForecast, ITeam } from '../../types';
+import ForecastModel from 'models/ForecastModel';
+import TeamModel from 'models/TeamModel';
+import { IForecast, ITeam } from 'types';
 
 export default async function handler(
   req: NextApiRequest,

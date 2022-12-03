@@ -1,12 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { connect } from 'mongoose';
 
-import {
-  isValidEmail,
-  isValidPassword,
-  hashPassword,
-} from '../../../utility/common';
-import UserModel from '../../../models/UserModel';
+import UserModel from 'models/UserModel';
+import { isValidEmail, isValidPassword, hashPassword } from 'utility/common';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== 'POST') return;
