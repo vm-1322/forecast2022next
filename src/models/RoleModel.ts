@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { IRole } from '../types/index';
+import { IRole } from 'types';
 
 const RoleSchema = new Schema<IRole>({
   name: {

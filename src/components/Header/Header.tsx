@@ -1,10 +1,9 @@
+import { IHeaderProps } from 'types';
 import {
   StyledHeader,
   StyledHeaderLogo,
   StyledHeaderText,
 } from './HeaderStyled';
-
-import { IHeaderProps } from '../../types';
 
 const Header: React.FC<IHeaderProps> = ({ className }) => {
   return (

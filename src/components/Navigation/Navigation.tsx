@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 
+import { INavigationProps, INavigationItem } from 'types';
 import {
   StyledNav,
   StyledNavItem,
@@ -10,8 +11,6 @@ import {
   StyledNavUser,
   StyledNavUserItem,
 } from './NavigationStyled';
-
-import { INavigationProps, INavigationItem } from '../../types';
 
 const Navigation: React.FC<INavigationProps> = ({
   items,

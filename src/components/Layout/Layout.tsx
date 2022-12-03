@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 
-import Header from '../Header';
-import Navigation from '../Navigation';
-import Footer from '../Footer';
-import { useUserRoles } from '../../hooks';
+import Header from 'components/Header';
+import Navigation from 'components/Navigation';
+import Footer from 'components/Footer';
+import { ILayoutProps, INavigationItem } from 'types';
+import { useUserRoles } from 'hooks';
 import { StyledLayout, StyledLayoutMain } from './LayoutStyled';
-import { ILayoutProps, INavigationItem } from '../../types';
 
 const Layout: React.FC<ILayoutProps> = ({ children, className }) => {
   const items: INavigationItem[] = [
@@ -22,6 +22,9 @@ const Layout: React.FC<ILayoutProps> = ({ children, className }) => {
   if (status === 'authenticated') {
     if (listRoles.length)
       items.splice(1, 0, { link: { label: 'Forecasts', value: '/forecasts' } });
+
+    if (listRoles.find((item: string) => item === 'admin'))
+      items.push({ link: { label: 'Dashboard', value: '/dashboard' } });
   }
 
   return (

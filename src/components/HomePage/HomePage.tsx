@@ -1,12 +1,11 @@
-import Matches from '../../components/Matches';
-import ScoreTable from '../../components/ScoreTable';
-
+import Matches from 'components/Matches';
+import ScoreTable from 'components/ScoreTable';
+import { IHomePageProps } from 'types';
 import {
   StyledHomePage,
   StyledMatches,
   StyledScoreTable,
 } from './HomePageStyled';
-import { IHomePageProps } from '../../types';
 
 const HomePage: React.FC<IHomePageProps> = ({ className }) => {
   return (

@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
 export const StyledHeader = styled.header`
+  position: sticky;
+  top: 0;
   padding: 10px 20px;
   background: linear-gradient(rgb(227, 216, 206), rgb(255, 255, 255));
   text-transform: uppercase;
+  z-index: 10;
 
   & a {
     display: flex;

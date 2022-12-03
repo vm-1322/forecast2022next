@@ -3,7 +3,7 @@ import type { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'styled-components';
 
-import { theme, GlobalStyle } from '../styles';
+import { theme, GlobalStyle } from 'styles';
 
 const App = ({
   Component,

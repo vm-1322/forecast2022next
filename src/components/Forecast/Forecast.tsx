@@ -3,6 +3,8 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+import { IForecastProps, ITeam, ForecastAction } from 'types';
+import { FormatDateTime, getSage } from 'utility/common';
 import {
   StyledForecast,
   StyledForecastDateStage,
@@ -18,8 +20,6 @@ import {
   StyledForecastTitle,
   StyledForecastLinkToBet,
 } from './ForecastStyled';
-import { IForecastProps, ITeam, ForecastAction } from '../../types';
-import { FormatDateTime, getSage } from '../../utility/common';
 
 const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
   if (JSON.stringify(match) === '{}') return null;
@@ -27,7 +27,7 @@ const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
   const [forecastAction, setForecastAction] = useState(ForecastAction.Create);
   const [goal1, setGoal1] = useState(null);
   const [goal2, setGoal2] = useState(null);
-  const [forecastCorrect, setForecastCorrect] = useState(false);
+  const [forecastIsCorrect, setForecastIsCorrect] = useState(false);
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -126,12 +126,12 @@ const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
           <input
             type='checkbox'
             onClick={() => {
-              setForecastCorrect((prevState) => !prevState);
+              setForecastIsCorrect((prevState) => !prevState);
             }}
           />
           Forecast is correct
         </StyledForecastFormCheckBox>
-        <input type='submit' value='Make Bet' disabled={!forecastCorrect} />
+        <input type='submit' value='Make Bet' disabled={!forecastIsCorrect} />
         <StyledForecastLinkToBet>
           <Link href={match.linkToBet} target='_blank'>
             Go to bet site

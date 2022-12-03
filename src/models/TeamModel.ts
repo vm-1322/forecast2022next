@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { ITeam } from '../types/index';
+import { ITeam } from 'types';
 
 const TeamSchema = new Schema<ITeam>({
   code: {

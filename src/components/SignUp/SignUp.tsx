@@ -1,13 +1,12 @@
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { ISignUpProps } from 'types';
 import {
   StyledSignUpForm,
   StyledSignUpFormCheckBox,
   StyledSignUpFormInput,
 } from './SignUpStyled';
-
-import { ISignUpProps } from '../../types';
 
 const SignUp: React.FC<ISignUpProps> = ({ className }) => {
   const [showPassword, setShowPassword] = useState(false);

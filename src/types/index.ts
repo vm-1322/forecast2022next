@@ -12,6 +12,12 @@ export enum DateTime {
   Time = 'Time',
 }
 
+export enum MatchKind {
+  List = 'List',
+  Forecast = 'Forecast',
+  Dashboard = 'Dashboard',
+}
+
 export enum MatchStatus {
   Forecast = 'Forecast',
   Finished = 'Finished',
@@ -45,6 +51,10 @@ export interface INavigationItem {
  * Components
  */
 
+export interface IDashboardProps {
+  className?: string;
+}
+
 export interface IFooterProps {
   className?: string;
 }
@@ -72,6 +82,19 @@ export interface ILayoutProps {
 }
 
 export interface ILogInProps {
+  className?: string;
+}
+
+export interface IMatchProps {
+  match: IMatch;
+  matchKind?: MatchKind;
+  matchStatus?: JSX.Element;
+  className?: string;
+}
+
+export interface IMatchEditProps {
+  match: IMatch;
+  create?: boolean;
   className?: string;
 }
 

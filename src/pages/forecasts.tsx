@@ -1,5 +1,5 @@
-import Layout from '../components/Layout';
-import Forecasts from '../components/Forecasts';
+import Layout from 'components/Layout';
+import Forecasts from 'components/Forecasts';
 
 const ForecastsPage: React.FC = () => {
   return (

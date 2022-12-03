@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
+import { IForecastsProps, IForecast, DateTime } from 'types';
+import { FormatDateTime } from 'utility/common';
 import {
   StyledForecasts,
   StyledForecastsList,
@@ -24,8 +26,6 @@ import {
   StyledForecastItemTime,
   StyledForecastItem,
 } from './ForecastsStyled';
-import { IForecastsProps, IForecast, DateTime } from '../../types';
-import { FormatDateTime } from '../../utility/common';
 
 const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
   const [forecasts, setForecasts] = useState<Array<IForecast>>([]);

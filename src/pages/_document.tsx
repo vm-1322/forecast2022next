@@ -6,7 +6,6 @@ import Document, {
   DocumentContext,
   DocumentInitialProps,
 } from 'next/document';
-
 import { ServerStyleSheet } from 'styled-components';
 
 class MyDocument extends Document {

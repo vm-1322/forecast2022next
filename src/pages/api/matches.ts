@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { connect } from 'mongoose';
 
-import MatchModel from '../../models/MatchModel';
-import TeamModel from '../../models/TeamModel';
-import { IMatch, ITeam } from '../../types';
+import MatchModel from 'models/MatchModel';
+import TeamModel from 'models/TeamModel';
+import { IMatch, ITeam } from 'types';
 
 export default async function handler(
   req: NextApiRequest,

@@ -1,5 +1,5 @@
-import Layout from '../components/Layout';
-import Teams from '../components/Teams';
+import Layout from 'components/Layout';
+import Teams from 'components/Teams';
 
 const TeamsPage: React.FC = () => {
   return (
