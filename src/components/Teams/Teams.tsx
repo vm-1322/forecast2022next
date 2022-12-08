@@ -22,8 +22,9 @@ const Teams: React.FC<ITeamsProps> = ({ className }) => {
     });
 
     const data = await response.json();
+    const listTeams = data.data;
 
-    setTeams(data);
+    setTeams(listTeams);
   };
 
   const renderTeamItem = (team: ITeam) => {

@@ -1,25 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { connect } from 'mongoose';
-
 import TeamModel from 'models/TeamModel';
+import dbConnect from 'lib/dbConnect';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== 'GET') return;
+  await dbConnect();
 
-  try {
-    const connection = await connect(process.env.DEVELOPMENT_DB);
+  const { method } = req;
 
-    const teamModel = TeamModel;
-    const teams = await teamModel.find();
+  switch (method) {
+    case 'GET':
+      try {
+        const teams = await TeamModel.find();
 
-    res.status(200).json(teams);
+        res.status(200).json({ success: true, data: teams });
+      } catch (error) {
+        console.log(error);
+        res.status(400).json({ success: false });
+      }
 
-    connection.disconnect();
-  } catch (error) {
-    res.status(400).json(error);
+      break;
+    default:
+      res.status(400).json({ success: false });
+
+      break;
   }
 }

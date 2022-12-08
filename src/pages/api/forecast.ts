@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { connect, Types } from 'mongoose';
+import { Types } from 'mongoose';
 
 import ForecastModel from 'models/ForecastModel';
 import UserModel from 'models/UserModel';
-import { ForecastAction } from 'types';
+import dbConnect from 'lib/dbConnect';
+import { DBAction } from 'types';
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,17 +12,18 @@ export default async function handler(
 ) {
   if (req.method !== 'POST') return;
 
-  const forecastAction = req.body.forecastAction || ForecastAction.Read;
+  const action = req.body.action || DBAction.Read;
   const matchId = new Types.ObjectId(req.body.matchId || '');
   const userEmail = req.body.userEmail || '';
   const goal1 = req.body.goal1 || 0;
   const goal2 = req.body.goal2 || 0;
+  const result = req.body.result || '';
 
-  if (!forecastAction || !matchId || !userEmail)
+  if (!action || !matchId || !userEmail)
     return res.status(400).json({ message: 'No access to forecast' });
 
   try {
-    const connection = await connect(process.env.DEVELOPMENT_DB);
+    await dbConnect();
 
     const userModel = UserModel;
     const user = await userModel.findOne({
@@ -29,8 +31,6 @@ export default async function handler(
     });
 
     if (!user) {
-      connection.disconnect();
-
       return res.status(400).json({ message: 'No acsess to user' });
     }
 
@@ -41,17 +41,18 @@ export default async function handler(
     });
 
     if (!forecast) {
-      if (ForecastAction[forecastAction] === ForecastAction.Read) {
-        connection.disconnect();
-
+      if (DBAction[action] === DBAction.Read) {
         return res.status(200).json({});
       }
 
-      if (ForecastAction[forecastAction] === ForecastAction.Write) {
-        connection.disconnect();
-
+      if (
+        DBAction[action] === DBAction.Add ||
+        DBAction[action] === DBAction.Update
+      ) {
         return res.status(404).json({ message: 'Not found' });
       }
+
+      // DBAction[action] === DBAction.Create
 
       try {
         const newForecast = await forecastModel.create({
@@ -69,41 +70,53 @@ export default async function handler(
           result: '',
         });
 
-        connection.disconnect();
-
         return res.status(200).json({ newForecast });
       } catch (error) {
-        connection.disconnect();
-
         return res.status(400).json(error);
       }
     }
 
-    if (ForecastAction[forecastAction] === ForecastAction.Create) {
-      connection.disconnect();
-
+    if (DBAction[action] === DBAction.Create) {
       return res.status(409).json({ message: 'Conflict' });
     }
 
-    if (ForecastAction[forecastAction] === ForecastAction.Read) {
-      connection.disconnect();
-
+    if (DBAction[action] === DBAction.Read) {
       return res.status(200).json({
         user: forecast.user,
         match: forecast.match,
         goal1: forecast.goal1,
         goal2: forecast.goal2,
+        result: forecast.result,
         history: forecast.history,
       });
     }
 
-    // ForecastAction.Write
+    if (DBAction[action] === DBAction.Add) {
+      forecast.history.push({
+        date: Date.now(),
+        goal1: goal1,
+        goal2: goal2,
+      });
 
-    forecast.history.push({
-      date: Date.now(),
-      goal1: goal1,
-      goal2: goal2,
-    });
+      const updatedForecast = await forecastModel.findOneAndUpdate(
+        {
+          match: matchId,
+          user: user._id,
+        },
+        {
+          goal1: goal1,
+          goal2: goal2,
+          history: forecast.history,
+        },
+        {
+          new: true,
+        }
+      );
+
+      return res.status(200).json({ updatedForecast });
+    }
+
+    // DBAction[action] === DBAction.Update
 
     const updatedForecast = await forecastModel.findOneAndUpdate(
       {
@@ -111,9 +124,10 @@ export default async function handler(
         user: user._id,
       },
       {
-        goal1: goal1,
-        goal2: goal2,
-        history: forecast.history,
+        result: result,
+      },
+      {
+        new: true,
       }
     );
 

@@ -1,9 +1,10 @@
 import { Schema } from 'mongoose';
 
-export enum ForecastAction {
-  Read = 'Read',
-  Write = 'Write',
+export enum DBAction {
   Create = 'Create',
+  Read = 'Read',
+  Add = 'Add',
+  Update = 'Update',
 }
 
 export enum DateTime {
@@ -188,6 +189,17 @@ export interface IMatch {
       flag: string;
     };
   };
+}
+
+export interface IScoreTable {
+  user: Schema.Types.ObjectId;
+  points: number;
+  progress: number;
+  date: number;
+  numberForecasts: number;
+  effectiveForecasts: number;
+  canceledForecasts: number;
+  expectedForecasts: number;
 }
 
 export interface IRole {

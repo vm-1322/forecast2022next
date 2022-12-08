@@ -31,6 +31,7 @@ export const StyledNavUser = styled.div`
   display: flex;
   flext-direction: row;
   flex-wrap: wrap;
+  margin-left: 20px;
 `;
 
 export const StyledNavItem = styled.div<{ isActive: boolean }>`
@@ -39,7 +40,7 @@ export const StyledNavItem = styled.div<{ isActive: boolean }>`
   font-weight: 700;
   font-size: 16px;
   line-height: 1.4;
-  margin-right: 40px;
+  margin-right: 20px;
   color: ${(props) =>
     props.isActive ? props.theme.colors.secondary : props.theme.colors.primary};
 
@@ -54,7 +55,7 @@ export const StyledNavUserItem = styled.div<{ isActive?: boolean }>`
   font-weight: 700;
   font-size: 16px;
   line-height: 1.4;
-  margin-right: 40px;
+  margin-right: 20px;
   color: ${(props) =>
     props.isActive ? props.theme.colors.secondary : props.theme.colors.primary};
 

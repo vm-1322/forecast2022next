@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
-import { IForecastsProps, IForecast, DateTime } from 'types';
+import { DateTime, DBAction, IForecastsProps, IForecast } from 'types';
 import { FormatDateTime } from 'utility/common';
 import {
   StyledForecasts,
@@ -37,9 +37,12 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ action: DBAction.Read }),
     });
 
-    const listForecasts = await response.json();
+    const data = await response.json();
+    const listForecasts = data.data;
+
     setForecasts(listForecasts);
   };
 
@@ -87,7 +90,9 @@ const Forecasts: React.FC<IForecastsProps> = ({ className }) => {
           <StyledForecastItemUser>
             {forecast.matchDetails.user.username}
           </StyledForecastItemUser>
-          <StyledForecastItemPoints>{forecast.result}</StyledForecastItemPoints>
+          <StyledForecastItemPoints>
+            {forecast.result ? `(${forecast.result})` : null}
+          </StyledForecastItemPoints>
         </StyledForecastItemUserPoints>
         <StyledForecastItemMatchDateTime>
           <StyledForecastItemMatchDate>

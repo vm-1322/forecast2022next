@@ -1,71 +1,78 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { connect } from 'mongoose';
 
 import MatchModel from 'models/MatchModel';
 import TeamModel from 'models/TeamModel';
 import { IMatch, ITeam } from 'types';
+import dbConnect from 'lib/dbConnect';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== 'POST') return;
+  await dbConnect();
+
+  const { method } = req;
 
   const forecast = req.body.forecast || false;
 
-  try {
-    const connection = await connect(process.env.DEVELOPMENT_DB);
+  switch (method) {
+    case 'POST':
+      try {
+        const matches = await MatchModel.find(
+          forecast ? { forecast: true } : null
+        );
+        const teams = await TeamModel.find();
 
-    const matchModel = MatchModel;
-    const matches = await matchModel.find(forecast ? { forecast: true } : null);
+        const listMatches: Array<IMatch> = [];
 
-    const teamModel = TeamModel;
-    const teams = await teamModel.find();
+        matches.forEach((itemMatch: IMatch) => {
+          const team1 = teams.find(
+            (item: ITeam) => item.code === itemMatch.team1Code
+          );
+          const team2 = teams.find(
+            (item: ITeam) => item.code === itemMatch.team2Code
+          );
 
-    const listMatches: Array<IMatch> = [];
+          listMatches.push({
+            date: itemMatch.date,
+            team1Code: itemMatch.team1Code,
+            team1: itemMatch.team1,
+            team2: itemMatch.team2,
+            team2Code: itemMatch.team2Code,
+            result1: itemMatch.result1,
+            result2: itemMatch.result2,
+            stage: itemMatch.stage,
+            matchStatus: itemMatch.matchStatus,
+            forecast: itemMatch.forecast,
+            linkToBet: itemMatch.linkToBet,
+            _id: itemMatch._id,
+            matchDetails: {
+              team1: {
+                code: team1.code,
+                name: team1.name,
+                flag: team1.flag,
+              },
+              team2: {
+                code: team2.code,
+                name: team2.name,
+                flag: team2.flag,
+              },
+            },
+          });
+        });
 
-    matches.forEach((itemMatch: IMatch) => {
-      const team1 = teams.find(
-        (item: ITeam) => item.code === itemMatch.team1Code
-      );
-      const team2 = teams.find(
-        (item: ITeam) => item.code === itemMatch.team2Code
-      );
+        listMatches.sort((a, b) => a.date - b.date);
 
-      listMatches.push({
-        date: itemMatch.date,
-        team1Code: itemMatch.team1Code,
-        team1: itemMatch.team1,
-        team2: itemMatch.team2,
-        team2Code: itemMatch.team2Code,
-        result1: itemMatch.result1,
-        result2: itemMatch.result2,
-        stage: itemMatch.stage,
-        matchStatus: itemMatch.matchStatus,
-        forecast: itemMatch.forecast,
-        linkToBet: itemMatch.linkToBet,
-        _id: itemMatch._id,
-        matchDetails: {
-          team1: {
-            code: team1.code,
-            name: team1.name,
-            flag: team1.flag,
-          },
-          team2: {
-            code: team2.code,
-            name: team2.name,
-            flag: team2.flag,
-          },
-        },
-      });
-    });
+        res.status(201).json({ success: true, data: listMatches });
 
-    listMatches.sort((a, b) => a.date - b.date);
+        break;
+      } catch (error) {
+        console.log(error);
+        res.status(400).json({ success: false });
+      }
+    default:
+      res.status(400).json({ success: false });
 
-    res.status(200).json(listMatches);
-
-    connection.disconnect();
-  } catch (error) {
-    res.status(400).json(error);
+      break;
   }
 }
