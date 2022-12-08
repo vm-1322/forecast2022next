@@ -62,6 +62,10 @@ export const StyledForecastTeamItemFlag = styled.a`
   display: block;
   width: 70px;
   margin: 0 auto;
+
+  & img {
+    width: 100%;
+  }
 `;
 
 export const StyledForecastTeamItemName = styled.div`

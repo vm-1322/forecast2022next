@@ -11,5 +11,6 @@ export const StyledLayoutMain = styled.main`
   display: flex;
   flex-direction: column;
   flex-grow: 2;
+  padding: 5px;
   background: whitesmoke;
 `;

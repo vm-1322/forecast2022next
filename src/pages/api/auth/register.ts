@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connect } from 'mongoose';
 
 import UserModel from 'models/UserModel';
+import dbConnect from 'lib/dbConnect';
 import { isValidEmail, isValidPassword, hashPassword } from 'utility/common';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,29 +17,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const connection = await connect(process.env.DEVELOPMENT_DB);
+  await dbConnect();
 
-  const userModel = UserModel;
-  const user = await userModel.findOne({ email: email });
+  const user = await UserModel.findOne({ email: email });
 
   if (user) {
     res.status(422).json({ message: 'User exists already!' });
-
-    connection.disconnect();
 
     return;
   }
   const hashedPassword = await hashPassword(password);
 
-  const result = await userModel.create({
+  const result = await UserModel.create({
     username: username,
     email: email,
     password: hashedPassword,
   });
 
   res.status(201).json({ message: 'Created user!' });
-
-  connection.disconnect();
 };
 
 export default handler;

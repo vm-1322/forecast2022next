@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import { IForecastProps, ITeam, ForecastAction } from 'types';
+import { DBAction, IForecastProps, ITeam } from 'types';
 import { FormatDateTime, getSage } from 'utility/common';
 import {
   StyledForecast,
@@ -24,7 +24,7 @@ import {
 const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
   if (JSON.stringify(match) === '{}') return null;
 
-  const [forecastAction, setForecastAction] = useState(ForecastAction.Create);
+  const [forecastAction, setForecastAction] = useState(DBAction.Create);
   const [goal1, setGoal1] = useState(null);
   const [goal2, setGoal2] = useState(null);
   const [forecastIsCorrect, setForecastIsCorrect] = useState(false);
@@ -38,7 +38,7 @@ const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        forecastAction: forecastAction,
+        action: forecastAction,
         matchId: match._id,
         userEmail: session.user.email,
         goal1: goal1,
@@ -56,6 +56,7 @@ const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        action: DBAction.Read,
         matchId: match._id,
         userEmail: session.user.email,
       }),
@@ -63,8 +64,7 @@ const Forecast: React.FC<IForecastProps> = ({ match, className }) => {
 
     const curForecast = await response.json();
 
-    if (JSON.stringify(curForecast) !== '{}')
-      setForecastAction(ForecastAction.Write);
+    if (JSON.stringify(curForecast) !== '{}') setForecastAction(DBAction.Add);
 
     setGoal1(curForecast.goal1);
     setGoal2(curForecast.goal2);

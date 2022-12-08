@@ -1,13 +1,21 @@
 import styled from 'styled-components';
 
-export const StyledDashboard = styled.div``;
+export const StyledDashboard = styled.div`
+  display: flex;
+  flex-direction: column;
 
-export const StyledDashboardMatchestsList = styled.div``;
+  ${(props) => props.theme.media.tablet} {
+    flex-direction: row;
+  }
+`;
+
+export const StyledDashboardMatchesList = styled.div`
+  margin: 50px auto 0;
+`;
 
 export const StyledDashboardMatchItem = styled.div`
   display: flex;
   flex-direction: row;
-  width: 60%;
 
   &:nth-child(odd) {
     background: ${(props) => props.theme.colors.oddRow};
@@ -56,7 +64,7 @@ export const StyledDashboardMatchItemEdit = styled.div`
 `;
 
 export const StyledDashboardCreateMatch = styled.div`
-  width: 60%;
+  margin: 0 auto;
 
   & input {
     display: block;
@@ -69,4 +77,13 @@ export const StyledDashboardCreateMatch = styled.div`
     font-size: 1rem;
     cursor: pointer;
   }
+`;
+
+export const StyledDashboardScoreTableList = styled.div`
+  ax-width: 380px;
+`;
+
+export const StyledDashboardCalculateScoreTable = styled.div`
+  width: 150px;
+  margin: 10px auto;
 `;

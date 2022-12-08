@@ -20,8 +20,12 @@ const Layout: React.FC<ILayoutProps> = ({ children, className }) => {
   const listRoles = useUserRoles();
 
   if (status === 'authenticated') {
-    if (listRoles.length)
+    if (listRoles.length) {
       items.splice(1, 0, { link: { label: 'Forecasts', value: '/forecasts' } });
+      items.push({
+        link: { label: 'ScoreTable', value: '/scoretable' },
+      });
+    }
 
     if (listRoles.find((item: string) => item === 'admin'))
       items.push({ link: { label: 'Dashboard', value: '/dashboard' } });

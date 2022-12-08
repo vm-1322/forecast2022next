@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 
 import Match from './Match';
 import { useUserRoles } from 'hooks';
-import { IMatchesProps, IMatch, IForecast, MatchStatus } from 'types';
+import { DBAction, IForecast, IMatch, IMatchesProps, MatchStatus } from 'types';
 import {
   StyledMatches,
   StyledMatchItem,
@@ -28,7 +28,9 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
       body: JSON.stringify({ forecast: forecast }),
     });
 
-    const listMatches = await response.json();
+    const data = await response.json();
+    const listMatches = data.data;
+
     setMatches(listMatches);
 
     if (forecast) {
@@ -37,9 +39,12 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ action: DBAction.Read }),
       });
 
-      const listForecasts = await response.json();
+      const data = await response.json();
+      const listForecasts = data.data;
+
       setForecasts(listForecasts);
     }
   };
@@ -107,18 +112,6 @@ const Matches: React.FC<IMatchesProps> = ({ forecast = false, className }) => {
   return (
     <StyledMatches>
       <StyledMatchesList>{matches.map(renderMatchItem)}</StyledMatchesList>
-      {/* {forecast ? null : (
-        <StyledMatchesStandings>
-          <Link
-            href={
-              'https://www.flashscore.com/standings/fRgR6gtF/zkyDYRLU/#/2/8/zkyDYRLU/table'
-            }
-            target={'_blank'}
-          >
-            Standings
-          </Link>
-        </StyledMatchesStandings>
-      )} */}
     </StyledMatches>
   );
 };

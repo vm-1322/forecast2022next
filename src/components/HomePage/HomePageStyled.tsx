@@ -13,16 +13,8 @@ export const StyledHomePage = styled.div`
 
 export const StyledMatches = styled.div`
   width: 100%;
-
-  ${(props) => props.theme.media.tablet} {
-    width: 67%;
-  }
 `;
 
 export const StyledScoreTable = styled.div`
   width: 100%;
-
-  ${(props) => props.theme.media.tablet} {
-    width: 33%;
-  }
 `;
