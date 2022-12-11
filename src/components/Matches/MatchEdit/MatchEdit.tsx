@@ -83,8 +83,6 @@ const MatchEdit: React.FC<IMatchEditProps> = ({ match, create, className }) => {
       }),
     });
 
-    console.log('response', response);
-
     if (response) {
       router.replace('/dashboard');
     }
@@ -124,7 +122,9 @@ const MatchEdit: React.FC<IMatchEditProps> = ({ match, create, className }) => {
       },
     });
 
-    const listTeams = await response.json();
+    const data = await response.json();
+    const listTeams = data.data;
+
     listTeams.sort((a: ITeam, b: ITeam) => a.name.localeCompare(b.name));
 
     setListTeams(listTeams);

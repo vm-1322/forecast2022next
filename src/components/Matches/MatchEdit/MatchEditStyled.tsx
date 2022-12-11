@@ -107,6 +107,7 @@ export const StyledMatchTeamItem = styled.div`
 
 export const StyledMatchTeamItemFlag = styled.div`
   display: block;
+  height: 50px;
   width: 70px;
   margin: 0 auto;
 `;
